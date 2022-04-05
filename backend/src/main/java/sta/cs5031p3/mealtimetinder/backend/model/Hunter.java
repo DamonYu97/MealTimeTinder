@@ -13,5 +13,7 @@ import javax.persistence.Table;
 @Getter
 @Table(name = "hunter")
 public class Hunter extends User {
-
+    public Hunter(){
+        super();
+    }
 }

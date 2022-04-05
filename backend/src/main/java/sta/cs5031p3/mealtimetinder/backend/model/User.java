@@ -3,6 +3,7 @@ package sta.cs5031p3.mealtimetinder.backend.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -14,6 +15,7 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "user")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {

@@ -15,6 +15,10 @@ import java.util.List;
 @Getter
 @Table(name = "restaurant")
 public class Restaurant extends User {
+    public Restaurant(){
+        super();
+
+    }
     private String description;
 
     @ManyToMany(targetEntity = Meal.class)
