@@ -3,7 +3,6 @@ package sta.cs5031p3.mealtimetinder.backend.security;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,7 +14,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import sta.cs5031p3.mealtimetinder.backend.filter.CustomAuthenticationFilter;
 import sta.cs5031p3.mealtimetinder.backend.filter.CustomAuthorisationFilter;
 import sta.cs5031p3.mealtimetinder.backend.service.impl.HunterDetailServiceImpl;
-import sta.cs5031p3.mealtimetinder.backend.service.impl.UserServiceImpl;
 
 /**
  * Config Spring security for authentication and authorisation of hunter.
