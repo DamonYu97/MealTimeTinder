@@ -26,7 +26,7 @@ import java.io.IOException;
         contact = @Contact(name = "CS5031 P3 Group B",
                 url = "https://gitlab.cs.st-andrews.ac.uk/cs5031groupb/project-code")
 ))
-public class AdminAccountAPI {
+public class AdminAPI {
 
     @Autowired
     private UserService adminService;

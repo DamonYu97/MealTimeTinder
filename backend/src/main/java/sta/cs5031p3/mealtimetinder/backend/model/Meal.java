@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Meal {
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
@@ -21,6 +22,9 @@ public class Meal {
 
     String imagePath;
 
-    @OneToMany
+    @OneToMany(mappedBy = "meal")
     List<Recipe> recipes;
+
+    @ManyToMany(targetEntity = Restaurant.class, mappedBy = "meals")
+    List<Restaurant> restaurants;
 }

@@ -1,7 +1,6 @@
 package sta.cs5031p3.mealtimetinder.backend.model;
 
 import lombok.Getter;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
