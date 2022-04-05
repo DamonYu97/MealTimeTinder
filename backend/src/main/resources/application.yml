@@ -6,7 +6,8 @@ spring:
         username: mtt
     jpa:
         hibernate:
-            ddl-auto: none
+            # Only for developing purpose - change value to none for production
+            ddl-auto: update
     web:
         resources:
             static-locations: file:<project-path>/images/
