@@ -1,7 +1,7 @@
 package sta.cs5031p3.mealtimetinder.backend.repository;
 
 import org.springframework.data.repository.CrudRepository;
-
+import sta.cs5031p3.mealtimetinder.backend.model.Meal;
 import sta.cs5031p3.mealtimetinder.backend.model.User;
 
 import java.util.Optional;
@@ -12,12 +12,9 @@ import java.util.Optional;
  * with right method names or customised query.
  * @author 200011181
  */
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface MealRepository extends CrudRepository<Meal, Long> {
 
-    Optional<User> findUserByUsernameAndStatus(String username, User.Status status);
+    Optional<Meal> findMealByName(String name);
 
-    Optional<User> findUserByUsernameAndRoleAndStatus(String username, User.Role role, User.Status status);
-
-    Optional<User> findUserByStatusAndUsernameAndPassword(User.Status status, String username, String password);
-
+    // Optional<Meal> findMealbyName()
 }
