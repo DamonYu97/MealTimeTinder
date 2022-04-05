@@ -31,4 +31,15 @@ public class HunterAccountAPI {
     User getProfile(@PathVariable long id) {
         return hunterService.getUserById(id);
     }
+    // to do - login - inputs: credentials, output boolean
+    // to do - logout
+    // to do - getNextMeal (void method, return
+    // to do - getMealRecipes
+    // to do - get meal restaurants
+    // to do - view cook book (saved or favourites recipes)
+    // to do - "swipe right" and get screen to be presented with cook or order screen for a meal
+    // to do - view default recipe and options for other user entered recipes
+    // to do - view other recipes
+    // to do - view local restaurants that can cook a meal
+
 }
