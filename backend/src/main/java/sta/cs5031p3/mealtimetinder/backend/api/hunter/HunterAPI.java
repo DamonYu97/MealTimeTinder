@@ -7,7 +7,10 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sta.cs5031p3.mealtimetinder.backend.model.Cookbook;
+import sta.cs5031p3.mealtimetinder.backend.model.Meal;
 import sta.cs5031p3.mealtimetinder.backend.model.User;
+import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
 
 @CrossOrigin
@@ -18,9 +21,12 @@ import sta.cs5031p3.mealtimetinder.backend.service.UserService;
         contact = @Contact(name = "CS5031 P3 Group B",
                 url = "https://gitlab.cs.st-andrews.ac.uk/cs5031groupb/project-code")
 ))
-public class HunterAccountAPI {
+public class HunterAPI {
     @Autowired
     private UserService hunterService;
+
+    @Autowired
+    private MealService mealService;
 
     @GetMapping("/{id}/profile")
     @Operation(security = {
@@ -31,4 +37,25 @@ public class HunterAccountAPI {
     User getProfile(@PathVariable long id) {
         return hunterService.getUserById(id);
     }
+
+
+    public Meal getMeal() {
+        Meal meal = mealService.getRandomMeal();
+        return meal;
+    }
+
+    public Cookbook getCookbook() {
+        //get user info
+        //validate
+        return null;
+    }
+
+    public boolean addMealToCookbook(long id) {
+        return false;
+    }
+
+    public boolean removeMealFromCookbook(long id) {
+        return false;
+    }
+
 }
