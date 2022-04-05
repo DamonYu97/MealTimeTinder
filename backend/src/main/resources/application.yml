@@ -1,0 +1,12 @@
+spring:
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: 123456
+        url: jdbc:mysql://localhost:3306/meal_time_tinder
+        username: mtt
+    jpa:
+        hibernate:
+            ddl-auto: none
+    web:
+        resources:
+            static-locations: file:/Users/damonyu/Documents/onedrive files/OneDrive - University of St Andrews/St Andrews/Moodle/CS5031/P3/project-code/images/
