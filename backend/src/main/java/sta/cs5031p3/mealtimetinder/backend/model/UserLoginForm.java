@@ -5,6 +5,10 @@ import lombok.Getter;
 
 import java.io.Serializable;
 
+/**
+ * The general user login form which can be used by all type of users.
+ * @author 200011181
+ */
 @Getter
 @Schema(name = "User login form", description = "Store user login info")
 public class UserLoginForm implements Serializable {

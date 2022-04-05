@@ -1,13 +1,21 @@
 package sta.cs5031p3.mealtimetinder.backend.model;
 
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * The User model is for the general user, includes admin, hunter and restaurant user.
+ * It refers to the user table in database.
+ */
 @Entity
-@Getter
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "user")
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -16,7 +24,6 @@ public class User {
 
     private String username;
 
-    @Getter(AccessLevel.NONE)
     private String password;
 
     public enum Status {
@@ -28,7 +35,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    enum Role {
+    public enum Role {
         ADMIN,
         HUNTER,
         RESTAURANT
