@@ -13,6 +13,7 @@ import sta.cs5031p3.mealtimetinder.backend.service.impl.UserServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -56,8 +57,22 @@ public class UserServiceTests {
         users.add(new Restaurant("Ziggys", "123",
                 User.Status.REGISTERED, "St Andrews", "KY16", "American Food", null));
 
+        //mocked removal of restaurant
+        users.remove(users.size()-1);
+
         when(userRepository.getAllByRole(User.Role.ADMIN)).thenReturn(users);
         assertEquals(userRepository.getAllByRole(User.Role.ADMIN).size(),2);
+    }
+    @Test
+    public void duplicateUserThrowExceptionTest(){
+        User testuser = new Admin("conor", "120",
+                User.Status.REGISTERED, "St Andrews", "KY16");
+        User testuser2 = new Admin("conor", "120",
+                User.Status.REGISTERED, "St Andrews", "KY16");
+        userService.saveUser(testuser);
+        when(userRepository.findUserByUsernameAndRoleAndStatus(testuser.getUsername(),testuser.getRole(),testuser.getStatus())).thenReturn(Optional.of(testuser));
+        when(userRepository.save(testuser2)).thenReturn(testuser2);
+        assertThrows(IllegalArgumentException.class,() -> userService.saveUser(testuser2));
     }
 }
 

@@ -15,6 +15,7 @@ import sta.cs5031p3.mealtimetinder.backend.service.impl.UserServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -39,18 +40,11 @@ public class MealServiceTests {
     @Test
     public void addMeal() {
         List<Meal> meals = new ArrayList<>();
-        meals.add(new Meal(null, "testmeal", "meals/burger.jpg", null, null));
-
+        Meal test = new Meal(null, "testmeal", "meals/burger.jpg", null, null);
+        meals.add(test);
+        mealService.saveMeal(test);
         //Meal hasnt been added to mealRepo
         when(mealRepository.findAll()).thenReturn(meals);
-        assertEquals(mealRepository.findAll().size(),1);
-    }
-    @Test
-    public void addMeal2() {
-
-        Meal tester = new Meal(null, "testmeal", "meals/burger.jpg", null, null);
-        mealRepository.save(tester);
-        //Meal hasnt been added to mealRepo
         assertEquals(mealRepository.findAll().size(),1);
     }
 
@@ -87,9 +81,13 @@ public class MealServiceTests {
         //Meal hasnt been added to mealRepo
         Recipe testrecipe = new Recipe(null, "Vegetable Pakora", "Heat up the oil in a karahi or wok to a medium heat", false, test);
         Recipe testrecipe2 = new Recipe(null, "Vegetable Test", "Heat up the oil in a karahi or wok to a medium test", false, test);
+        when(mealRepository.findMealByName(testrecipe.getMeal().getName())).thenReturn(Optional.of(test));
         mealService.saveRecipe(testrecipe);
         mealService.saveRecipe(testrecipe2);
+
+
         assertEquals(2,recipeRepository.findAll().size());
+
     }
 
     @Test
@@ -97,9 +95,9 @@ public class MealServiceTests {
 
         Meal test = new Meal(null, "Burger Test", "meals/burger.jpg", null, null);
         Meal test2 = new Meal(null, "Burger Test", "meals/burger.jpg", null, null);
-
         mealService.saveMeal(test);
-
+        when(mealRepository.findMealByName(test.getName())).thenReturn(Optional.of(test));
+        when(mealRepository.save(test2)).thenReturn(test2);
         assertThrows(IllegalArgumentException.class, () -> mealService.saveMeal(test2));
 
     }

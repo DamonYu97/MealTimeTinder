@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
         //No such user before: username does not match any registered username in database.
         Optional<User> existingUser = userRepository.findUserByUsernameAndRoleAndStatus(user.getUsername(), user.getRole(), User.Status.REGISTERED);
         if (existingUser.isPresent()) {
-            throw new RuntimeException("Username exists");
+            throw new IllegalArgumentException("User already exists");
         }
         return userRepository.save(user);
     }
