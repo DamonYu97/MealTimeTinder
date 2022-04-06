@@ -58,4 +58,15 @@ public class MealServiceImpl implements MealService {
         return mealRepository.save(meal);
     }
 
+    @Override
+    public Meal getMealById(Long id){
+        Optional<Meal> meal =mealRepository.getMealById(id);
+
+        if(!meal.isPresent()){
+            throw new IllegalArgumentException("Meal does not exist");
+        }
+
+        return mealRepository.getMealById(id).orElseThrow();
+    }
+
 }

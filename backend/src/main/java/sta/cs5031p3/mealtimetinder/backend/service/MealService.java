@@ -16,4 +16,6 @@ public interface MealService {
     Recipe saveRecipe(Recipe recipe);
 
     Meal addRecipeToMeal(Meal meal,Recipe recipe);
+
+    Meal getMealById(Long id);
 }

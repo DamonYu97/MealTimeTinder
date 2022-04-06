@@ -8,6 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sta.cs5031p3.mealtimetinder.backend.model.Cookbook;
+import sta.cs5031p3.mealtimetinder.backend.model.Meal;
 import sta.cs5031p3.mealtimetinder.backend.model.User;
 import sta.cs5031p3.mealtimetinder.backend.model.UserLoginForm;
 import sta.cs5031p3.mealtimetinder.backend.repository.UserRepository;
@@ -68,5 +70,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllByRole(User.Role role){
         return userRepository.getAllByRole(role);
+    }
+
+    public void AddMealToCookbook(User user, Meal meal){
+
     }
 }
