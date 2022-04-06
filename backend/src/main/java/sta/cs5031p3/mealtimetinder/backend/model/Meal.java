@@ -29,6 +29,8 @@ public class Meal {
     @OneToMany(mappedBy = "meal")
     List<Recipe> recipes;
 
-    @ManyToMany(targetEntity = Restaurant.class, mappedBy = "meals")
+    @ManyToMany
+    @JoinTable(name = "meal_restaurant", joinColumns = @JoinColumn(name = "meal_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "restaurant_id", referencedColumnName = "id"))
     List<Restaurant> restaurants;
 }

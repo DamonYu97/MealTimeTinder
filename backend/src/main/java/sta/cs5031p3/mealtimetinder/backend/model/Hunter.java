@@ -1,10 +1,8 @@
 package sta.cs5031p3.mealtimetinder.backend.model;
 
 import lombok.Getter;
-import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * The Hunter model is for administrator, which inherits features from the general user.
