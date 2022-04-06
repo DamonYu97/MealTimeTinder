@@ -15,12 +15,16 @@ import java.util.List;
 public class Cookbook {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "hunter_id")
     private Long id;
 
-    @OneToOne
+    @OneToOne()
+    @MapsId
+    @JoinColumn(name = "hunter_id")
     private Hunter hunter;
 
     @ManyToMany
+    @JoinTable(name = "cookbook_meal", joinColumns = @JoinColumn(name = "cook_id", referencedColumnName = "hunter_id"),
+            inverseJoinColumns = @JoinColumn(name = "meal_id", referencedColumnName = "id"))
     private List<Meal> meals;
 }
