@@ -79,6 +79,17 @@ public class AdminAPI {
         return adminService.getUserById(id);
     }
 
+    @GetMapping("/profile")
+    @Operation(security = {
+            @SecurityRequirement(name = "AdminBearerAuth")},
+            summary = "Get Admin Profile detail",
+            description = "Administrator request profile information")
+    public @ResponseBody
+    User getProfile() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return adminService.getRegisteredAdminByUsername(username);
+    }
+
     @PostMapping(value = "/meal/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String uploadImage(@RequestBody MultipartFile multipartFile) throws IOException {
         return fileService.upload(multipartFile, "meals");

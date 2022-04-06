@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import sta.cs5031p3.mealtimetinder.backend.model.*;
@@ -53,14 +54,15 @@ public class HunterAPI {
         return ResponseEntity.ok(new JWTResponse(accessToken));
     }
 
-    @GetMapping("/{id}/profile")
+    @GetMapping("/profile")
     @Operation(security = {
             @SecurityRequirement(name = "HunterBearerAuth")},
             summary = "Get Hunter Profile detail",
             description = "Hunter request profile information")
     public @ResponseBody
-    User getProfile(@PathVariable long id) {
-        return hunterService.getUserById(id);
+    User getProfile() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return hunterService.getRegisteredHunterByUsername(username);
     }
 
 
