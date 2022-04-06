@@ -1,6 +1,8 @@
 package sta.cs5031p3.mealtimetinder.backend.service;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import sta.cs5031p3.mealtimetinder.backend.model.Meal;
+import sta.cs5031p3.mealtimetinder.backend.model.Restaurant;
 import sta.cs5031p3.mealtimetinder.backend.model.User;
 import sta.cs5031p3.mealtimetinder.backend.model.UserLoginForm;
 
@@ -30,4 +32,6 @@ public interface UserService {
     List<User> getAllByRole(User.Role role);
 
     void addMealToCookbook(int mealID);
+
+    List <Meal> getMealsForRestaurant(Restaurant restaurant);
  }
