@@ -68,8 +68,16 @@ public class HunterAPI {
         return null;
     }
 
-    public boolean addMealToCookbook(long id) {
-        return false;
+    @PostMapping("/addMealToCookbook/{mealID}")
+    public boolean addMealToCookbook(
+            @PathVariable ("mealID") int mealID
+    ){
+        try {
+            addMealToCookbook(mealID);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 
     public boolean removeMealFromCookbook(long id) {

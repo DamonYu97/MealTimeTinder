@@ -69,4 +69,9 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllByRole(User.Role role){
         return userRepository.getAllByRole(role);
     }
+
+    @Override
+    public void addMealToCookbook(int mealID){
+
+    }
 }

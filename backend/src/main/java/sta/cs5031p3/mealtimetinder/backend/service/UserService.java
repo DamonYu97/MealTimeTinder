@@ -28,4 +28,6 @@ public interface UserService {
     User getRegisteredAdminByUsername(String username);
 
     List<User> getAllByRole(User.Role role);
+
+    void addMealToCookbook(int mealID);
  }
