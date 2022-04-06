@@ -1,6 +1,8 @@
 package sta.cs5031p3.mealtimetinder.backend.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
+import sta.cs5031p3.mealtimetinder.backend.model.Admin;
 import sta.cs5031p3.mealtimetinder.backend.model.User;
 
 import java.util.Optional;
@@ -11,7 +13,7 @@ import java.util.Optional;
  * with right method names or customised query.
  * @author 200011181
  */
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findUserByUsernameAndStatus(String username, User.Status status);
 

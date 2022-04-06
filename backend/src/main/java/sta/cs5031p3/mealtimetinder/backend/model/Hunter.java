@@ -1,8 +1,8 @@
 package sta.cs5031p3.mealtimetinder.backend.model;
 
 import lombok.Getter;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 
 /**
  * The Hunter model is for administrator, which inherits features from the general user.
@@ -14,4 +14,7 @@ import javax.persistence.Table;
 @Table(name = "hunter")
 public class Hunter extends User {
 
+    @OneToOne(mappedBy = "hunter", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Cookbook cookbook;
 }

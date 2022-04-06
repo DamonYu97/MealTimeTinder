@@ -17,7 +17,7 @@ import java.util.List;
 public class Restaurant extends User {
     private String description;
 
-    @ManyToMany(targetEntity = Meal.class)
+    @ManyToMany(mappedBy = "restaurants")
     private List<Meal> meals;
 
 }
