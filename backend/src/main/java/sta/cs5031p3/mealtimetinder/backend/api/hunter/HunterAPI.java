@@ -19,7 +19,8 @@ import java.util.List;
 
 import java.util.ArrayList;
 
-@CrossOrigin
+import java.util.List;
+
 @RestController
 @RequestMapping("/hunter")
 @OpenAPIDefinition(info = @Info(title = "Hunter Account API",

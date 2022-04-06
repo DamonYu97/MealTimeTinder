@@ -7,6 +7,8 @@ import sta.cs5031p3.mealtimetinder.backend.model.Restaurant;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.List;
+
 public interface MealService {
 
     /**
