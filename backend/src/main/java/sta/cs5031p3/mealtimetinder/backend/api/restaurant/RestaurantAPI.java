@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import sta.cs5031p3.mealtimetinder.backend.model.*;
 import sta.cs5031p3.mealtimetinder.backend.security.JWTProvider;
+import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
 
 import java.util.List;
@@ -36,6 +37,9 @@ public class RestaurantAPI {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MealService mealService;
 
     @PostMapping("/login")
     @Operation(summary = "Restaurant Login",
@@ -72,7 +76,7 @@ public class RestaurantAPI {
             @PathVariable("restaurant")Restaurant restaurant
             ) {
         try {
-            List<Meal> meals = userService.getMealsForRestaurant(restaurant);
+            List<Meal> meals = mealService.getMealsForRestaurant(restaurant);
             return meals;
         } catch (Exception e){
             return null;

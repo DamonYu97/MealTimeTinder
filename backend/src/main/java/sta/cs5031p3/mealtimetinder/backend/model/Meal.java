@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "meal")
@@ -30,7 +29,7 @@ public class Meal {
     List<Recipe> recipes;
 
     @ManyToMany(mappedBy ="servedMeals")
-    List<Restaurant> served;
+    List<Restaurant> restaurants;
 
     @ManyToMany(mappedBy ="favouriteMeals")
     List<Hunter> likes;
