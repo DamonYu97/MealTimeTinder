@@ -1,6 +1,7 @@
 package sta.cs5031p3.mealtimetinder.backend.model;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -13,15 +14,21 @@ import java.util.List;
  */
 @Entity
 @Getter
+@Setter
 @Table(name = "restaurant")
 public class Restaurant extends User {
     public Restaurant(){}
 
-    public Restaurant(String username,String password,Status status,Role role,String address,String postcode,String description){
+    public Restaurant(String username,String password,Status status,Role role,String address,String postcode,String description,List<Meal> meals){
         super(username,password,status,role,address,postcode);
         this.description=description;
+        this.meals=meals;
     }
     private String description;
+
+    public void addMeal(Meal meal){
+        this.meals.add(meal);
+    }
 
     @ManyToMany(targetEntity = Meal.class)
     private List<Meal> meals;
