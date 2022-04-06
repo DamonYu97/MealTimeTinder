@@ -16,7 +16,6 @@ import sta.cs5031p3.mealtimetinder.backend.model.*;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
 
-@CrossOrigin
 @RestController
 @OpenAPIDefinition(info = @Info(title = "Hunter Account API",
         description = "This documents Restful APIs for Hunter's Account",

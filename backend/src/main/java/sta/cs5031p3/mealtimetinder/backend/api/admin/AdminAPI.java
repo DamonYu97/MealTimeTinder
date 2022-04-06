@@ -22,7 +22,6 @@ import sta.cs5031p3.mealtimetinder.backend.service.FileService;
 
 import java.io.IOException;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/admin")
 @OpenAPIDefinition(info = @Info(title = "Admin Account API",
