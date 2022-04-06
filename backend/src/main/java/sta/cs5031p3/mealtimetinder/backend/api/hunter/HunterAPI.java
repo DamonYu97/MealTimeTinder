@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import sta.cs5031p3.mealtimetinder.backend.model.*;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
+import java.util.List;
+
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -42,7 +45,8 @@ public class HunterAPI {
     @Operation(summary = "Hunter Login",
             description = "Hunter submit login form to log in")
     public ResponseEntity<JWTResponse> login(@RequestBody UserLoginForm loginForm) {
-        String accessToken = userService.login(loginForm, User.Role.ADMIN, authenticationManager);;
+        String accessToken = userService.login(loginForm, User.Role.ADMIN, authenticationManager);
+        ;
         return ResponseEntity.ok(new JWTResponse(accessToken));
     }
 
@@ -69,12 +73,50 @@ public class HunterAPI {
         return null;
     }
 
-    public boolean addMealToCookbook(long id) {
-        return false;
+    @PostMapping("/getRecipesForMeal/{meal}")
+    public List<Recipe> getRecipesFromMeal(
+            @PathVariable("meal") Meal meal
+    ) {
+        try {
+            return getRecipesFromMeal(meal);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
-    public boolean removeMealFromCookbook(long id) {
-        return false;
+    @PostMapping("/getRestaurantFromMeal/{meal}")
+    public List<Restaurant> getRestaurantFromMeal(
+            @PathVariable("meal") Meal meal
+    ){
+        try {
+            return getRestaurantFromMeal(meal);
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    @PostMapping("/addMealToCookbook/{mealID}")
+    public boolean addMealToCookbook(
+            @PathVariable ("mealID") int mealID
+    ){
+        try {
+            addMealToCookbook(mealID);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    @PostMapping("/addMealToCookbook/{mealID}")
+    public boolean removeMealFromCookbook(
+            @PathVariable ("mealID") int mealID
+    ) {
+        try {
+            removeMealFromCookbook(mealID);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 
 }
