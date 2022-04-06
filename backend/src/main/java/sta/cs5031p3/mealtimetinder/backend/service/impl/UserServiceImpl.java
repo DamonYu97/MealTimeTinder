@@ -45,6 +45,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getRegisteredHunterByUsername(String username) {
+        return userRepository.findUserByUsernameAndRoleAndStatus(username, User.Role.HUNTER, User.Status.REGISTERED).orElseThrow();
+    }
+
+    @Override
     public User saveUser(User user) {
         //No such user before: username does not match any registered username in database.
         Optional<User> existingUser = userRepository.findUserByUsernameAndRoleAndStatus(user.getUsername(), user.getRole(), User.Status.REGISTERED);
@@ -52,6 +57,11 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Username exists");
         }
         return userRepository.save(user);
+    }
+
+    @Override
+    public User getRegisteredAdminByUsername(String username) {
+        return userRepository.findUserByUsernameAndRoleAndStatus(username, User.Role.ADMIN, User.Status.REGISTERED).orElseThrow();
     }
 
 }

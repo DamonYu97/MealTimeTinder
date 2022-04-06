@@ -69,14 +69,15 @@ public class AdminAPI {
     }
 
 
-    @GetMapping("/{id}/profile")
+    @GetMapping("/profile")
     @Operation(security = {
             @SecurityRequirement(name = "AdminBearerAuth")},
             summary = "Get Admin Profile detail",
             description = "Administrator request profile information")
     public @ResponseBody
-    User getProfile(@PathVariable long id) {
-        return adminService.getUserById(id);
+    User getProfile() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return adminService.getRegisteredAdminByUsername(username);
     }
 
     @PostMapping(value = "/meal/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

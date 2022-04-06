@@ -12,5 +12,9 @@ public interface UserService {
 
     List<User> getAllUsers();
 
+    User getRegisteredHunterByUsername(String username);
+
     User saveUser(User user);
+
+    User getRegisteredAdminByUsername(String username);
 }
