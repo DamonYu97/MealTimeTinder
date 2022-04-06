@@ -16,6 +16,8 @@ import sta.cs5031p3.mealtimetinder.backend.model.*;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
 
+import java.util.List;
+
 @RestController
 @OpenAPIDefinition(info = @Info(title = "Hunter Account API",
         description = "This documents Restful APIs for Hunter's Account",
@@ -39,7 +41,8 @@ public class HunterAPI {
     @Operation(summary = "Hunter Login",
             description = "Hunter submit login form to log in")
     public ResponseEntity<JWTResponse> login(@RequestBody UserLoginForm loginForm) {
-        String accessToken = userService.login(loginForm, User.Role.ADMIN, authenticationManager);;
+        String accessToken = userService.login(loginForm, User.Role.ADMIN, authenticationManager);
+        ;
         return ResponseEntity.ok(new JWTResponse(accessToken));
     }
 
@@ -54,10 +57,10 @@ public class HunterAPI {
         return userService.getRegisteredHunterByUsername(username);
     }
 
-
-    public Meal getMeal() {
-        Meal meal = mealService.getRandomMeal();
-        return meal;
+    @GetMapping("/meals")
+    public List<Meal> getMeal() {
+        log.info("meals");
+        return mealService.getRecent5Meals();
     }
 
     public Cookbook getCookbook() {
@@ -66,9 +69,28 @@ public class HunterAPI {
         return null;
     }
 
+    @PostMapping("/addMealToFavourite/{id}")
     public boolean addMealToCookbook(long id) {
+        //function MEAL = mealService.getMealFromID
+        //add MEAL to cookbook;
         return false;
     }
+
+
+    @PostMapping("/createNewHunterAccount/{address}/{password}/{username}")
+    public boolean addAccount(
+            @PathVariable String address,
+            @PathVariable String password,
+            @PathVariable String username
+    ) {
+        try {
+            userService.saveUser(new User(null, username, password, User.Status.REGISTERED, User.Role.HUNTER, address, null));
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
+
 
     public boolean removeMealFromCookbook(long id) {
         return false;

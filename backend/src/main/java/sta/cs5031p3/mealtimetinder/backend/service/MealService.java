@@ -3,6 +3,8 @@ package sta.cs5031p3.mealtimetinder.backend.service;
 import sta.cs5031p3.mealtimetinder.backend.model.Meal;
 import sta.cs5031p3.mealtimetinder.backend.model.Recipe;
 
+import java.util.List;
+
 public interface MealService {
 
     /**
@@ -11,9 +13,13 @@ public interface MealService {
      */
     Meal getRandomMeal();
 
+    List<Meal> getRecent5Meals();
+
     Meal saveMeal(Meal meal);
 
     Recipe saveRecipe(Recipe recipe);
 
     Meal addRecipeToMeal(Meal meal,Recipe recipe);
+
+    Meal getMealById(Long id);
 }
