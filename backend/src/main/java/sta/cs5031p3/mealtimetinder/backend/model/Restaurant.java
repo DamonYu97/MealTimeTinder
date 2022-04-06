@@ -16,13 +16,13 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "restaurant")
+@NoArgsConstructor
 public class Restaurant extends User {
-    public Restaurant(){}
 
     public Restaurant(String username,String password,Status status,Role role,String address,String postcode,String description,List<Meal> meals){
-        super(username,password,status,role,address,postcode);
-        this.description=description;
-        this.meals=meals;
+        super(null, username, password, status,Role.RESTAURANT, address, postcode);
+        this.description = description;
+        this.meals = meals;
     }
     private String description;
 

@@ -26,7 +26,7 @@ public class Meal {
     String imagePath;
 
     @Setter
-    @OneToMany(mappedBy="meal")
+    @OneToMany(mappedBy = "meal")
     List<Recipe> recipes;
 
     @ManyToMany(targetEntity = Restaurant.class, mappedBy = "meals")

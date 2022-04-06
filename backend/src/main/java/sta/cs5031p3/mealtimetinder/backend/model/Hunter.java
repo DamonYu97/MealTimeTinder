@@ -14,14 +14,11 @@ import javax.persistence.Table;
 @Entity
 @Getter
 @Setter
-
 @Table(name = "hunter")
+@NoArgsConstructor
 public class Hunter extends User {
-    public Hunter(){}
 
-
-
-    public Hunter(String username,String password,Status status,Role role,String address,String postcode){
-        super(username,password,status,role,address,postcode);
+    public Hunter(String username,String password,Status status,String address,String postcode){
+        super(null, username,password,status,Role.HUNTER ,address,postcode);
     }
 }

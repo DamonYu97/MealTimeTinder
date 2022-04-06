@@ -47,14 +47,8 @@ import java.util.ArrayList;
 @SpringBootApplication
 public class BackendApplication {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    private static final Logger logger = LoggerFactory.getLogger(BackendApplication.class);
-
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
-
     }
 
     @Bean
@@ -111,12 +105,12 @@ public class BackendApplication {
                 ArrayList<User> users= new ArrayList<User>();
 
                 User conor = new Admin("conor",passwordEncoder().encode("1204578615"),
-                        User.Status.REGISTERED, User.Role.ADMIN,"St Andrews","KY16");
+                        User.Status.REGISTERED, "St Andrews","KY16");
                 users.add(conor);
 
 
                 User damon = new Admin("damon",passwordEncoder().encode("1204578614"),
-                        User.Status.REGISTERED, User.Role.ADMIN,"St Andrews","KY16");
+                        User.Status.REGISTERED, "St Andrews","KY16");
                 users.add(damon);
 
 
@@ -125,37 +119,37 @@ public class BackendApplication {
 
 
                 User ziggy = new Restaurant("Ziggys",passwordEncoder().encode("1204578612"),
-                        User.Status.REGISTERED, User.Role.RESTAURANT,"St Andrews","KY16","American Food", a);
+                        User.Status.REGISTERED, "St Andrews","KY16","American Food", a);
                 users.add(ziggy);
 
                 ArrayList<Meal> b = new ArrayList<Meal>();
                 b.add(chicken);
 
                 User nandos =new Restaurant("Nandos",passwordEncoder().encode("1204578611"),
-                        User.Status.REGISTERED, User.Role.RESTAURANT,"St Andrews","KY16","Grilled Chicken",b);
+                        User.Status.REGISTERED,"St Andrews","KY16","Grilled Chicken",b);
 
                 users.add(nandos);
 
 
                 users.add(new Restaurant("Paesano",passwordEncoder().encode("1204578611"),
-                        User.Status.PENDING, User.Role.RESTAURANT,"Glasgow","G64 123","Italian Food",null));
+                        User.Status.PENDING,"Glasgow","G64 123","Italian Food",null));
                 ArrayList<Meal> c = new ArrayList<Meal>();
                 c.add(pizza); c.add(indian); c.add(pakora);
 
                 users.add(new Restaurant("Tulsi",passwordEncoder().encode("1204578610"),
-                        User.Status.REGISTERED, User.Role.RESTAURANT,"St Andrews","G64 124","Indian Food",c));
+                        User.Status.REGISTERED,"St Andrews","G64 124","Indian Food",c));
 
                 users.add(new Hunter("Damon",passwordEncoder().encode("1204578609"),
-                        User.Status.REGISTERED, User.Role.HUNTER,"St Andrews","G64 125"));
+                        User.Status.REGISTERED,"St Andrews","G64 125"));
 
                 users.add(new Hunter("Michael",passwordEncoder().encode("1204578608"),
-                        User.Status.REGISTERED, User.Role.HUNTER,"St Andrews","G64 126"));
+                        User.Status.REGISTERED, "St Andrews","G64 126"));
 
                 users.add(new Hunter("Jonny",passwordEncoder().encode("1204578607"),
-                        User.Status.PENDING, User.Role.HUNTER,"St Andrews","G64 127"));
+                        User.Status.PENDING, "St Andrews","G64 127"));
 
                 users.add(new Hunter("Conor",passwordEncoder().encode("1204578606"),
-                        User.Status.REGISTERED, User.Role.HUNTER,"St Andrews","G64 128"));
+                        User.Status.REGISTERED, "St Andrews","G64 128"));
 
                 for(User user: users){
                     userService.saveUser(user);

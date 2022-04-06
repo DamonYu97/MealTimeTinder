@@ -14,11 +14,10 @@ import javax.persistence.Table;
 @Entity
 @Getter
 @Table(name = "admin")
-
+@NoArgsConstructor
 public class Admin extends User {
-    public Admin(){}
 
-    public Admin(String username,String password,Status status,Role role,String address,String postcode){
-        super(username,password,status,role,address,postcode);
+    public Admin(String username,String password,Status status,String address,String postcode){
+        super(null, username,password,status, Role.ADMIN,address,postcode);
     }
 }

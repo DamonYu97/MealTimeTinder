@@ -29,7 +29,4 @@ public class RestaurantDetailServiceImpl implements UserDetailsService {
         authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
-
-
-
 }
