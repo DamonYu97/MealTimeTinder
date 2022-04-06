@@ -26,4 +26,6 @@ public interface UserService {
     User saveUser(User user);
 
     User getRegisteredAdminByUsername(String username);
-}
+
+    List<User> getAllByRole(User.Role role);
+ }

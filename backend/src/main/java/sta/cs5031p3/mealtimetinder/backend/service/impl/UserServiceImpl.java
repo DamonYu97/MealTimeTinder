@@ -65,4 +65,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUserByUsernameAndRoleAndStatus(username, User.Role.ADMIN, User.Status.REGISTERED).orElseThrow();
     }
 
+    @Override
+    public List<User> getAllByRole(User.Role role){
+        return userRepository.getAllByRole(role);
+    }
 }

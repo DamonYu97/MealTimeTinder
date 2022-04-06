@@ -1,5 +1,6 @@
 package sta.cs5031p3.mealtimetinder.backend.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import sta.cs5031p3.mealtimetinder.backend.model.Meal;
 import sta.cs5031p3.mealtimetinder.backend.model.Recipe;
@@ -13,7 +14,7 @@ import java.util.Optional;
  * with right method names or customised query.
  * @author 200011181
  */
-public interface RecipeRepository extends CrudRepository<Recipe, Long> {
+public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     Optional<Recipe> findRecipeByName(String name);
 
