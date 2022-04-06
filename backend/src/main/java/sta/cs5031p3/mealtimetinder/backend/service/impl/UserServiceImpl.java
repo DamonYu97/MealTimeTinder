@@ -15,6 +15,7 @@ import sta.cs5031p3.mealtimetinder.backend.model.UserLoginForm;
 import sta.cs5031p3.mealtimetinder.backend.repository.UserRepository;
 import sta.cs5031p3.mealtimetinder.backend.security.JWTProvider;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
+import sta.cs5031p3.mealtimetinder.backend.model.Meal;
 
 import java.util.List;
 import java.util.Optional;

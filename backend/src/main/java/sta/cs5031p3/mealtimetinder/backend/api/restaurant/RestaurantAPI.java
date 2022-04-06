@@ -13,10 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import sta.cs5031p3.mealtimetinder.backend.model.JWTResponse;
-import sta.cs5031p3.mealtimetinder.backend.model.Meal;
-import sta.cs5031p3.mealtimetinder.backend.model.User;
-import sta.cs5031p3.mealtimetinder.backend.model.UserLoginForm;
+import sta.cs5031p3.mealtimetinder.backend.model.*;
 import sta.cs5031p3.mealtimetinder.backend.security.JWTProvider;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
 
@@ -52,9 +49,17 @@ public class RestaurantAPI {
         return null;
     }
 
-    public boolean addRestaurantToMeal(long meal_id) {
-        //restaurant id
-        return false;
+    @PostMapping("/addMealToRestaurant/{restaurant}/{meal}")
+    public boolean addRestaurantToMeal(
+            @PathVariable ("restaurant") Restaurant restaurant,
+            @PathVariable ("meal") Meal meal
+    ) {
+        try {
+            addRestaurantToMeal(restaurant, meal);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 
     public boolean removeRestaurantToMeal(long meal_id) {
@@ -62,8 +67,29 @@ public class RestaurantAPI {
         return false;
     }
 
-    public List<Meal> checkOwnMeal() {
-        return null;
+    @PostMapping("/getRestaurantMeals/{restaurant}")
+    public List<Meal> checkOwnMeal(
+            @PathVariable("restaurant")Restaurant restaurant
+            ) {
+        try {
+            List<Meal> meals = userService.getMealsForRestaurant(restaurant);
+            return meals;
+        } catch (Exception e){
+            return null;
+        }
     }
 
+    @GetMapping("/getSpecificMeal/{mealName}")
+    public Meal getSpecificMeal(
+        @PathVariable("mealName") String meaName
+    ){
+
+        try {
+            Meal meal = getSpecificMeal(meaName);
+            return meal;
+        } catch(Exception e){
+            return null;
+        }
+
+    }
 }
