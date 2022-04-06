@@ -67,11 +67,11 @@ public class HunterAPI {
         return mealService.getRandom5Meals();
     }
 
-    public Cookbook getCookbook() {
+   /* public Cookbook getCookbook() {
         //get user info
         //validate
         return null;
-    }
+    }*/
 
     @PostMapping("/getRecipesForMeal/{meal}")
     public List<Recipe> getRecipesFromMeal(
@@ -95,12 +95,13 @@ public class HunterAPI {
         }
     }
 
-    @PostMapping("/addMealToCookbook/{mealID}")
-    public boolean addMealToCookbook(
-            @PathVariable ("mealID") int mealID
-    ){
+    @PostMapping("/createNewHunterAccount/{password}/{username}")
+    public boolean addAccount(
+            @PathVariable String password,
+            @PathVariable String username
+    ) {
         try {
-            addMealToCookbook(mealID);
+            userService.saveUser(new User(null, username, password, User.Status.REGISTERED, User.Role.HUNTER, null, null));
             return true;
         } catch (Exception e){
             return false;
