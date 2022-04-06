@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import sta.cs5031p3.mealtimetinder.backend.model.JWTResponse;
 import sta.cs5031p3.mealtimetinder.backend.model.Meal;
+import sta.cs5031p3.mealtimetinder.backend.model.User;
 import sta.cs5031p3.mealtimetinder.backend.model.UserLoginForm;
 import sta.cs5031p3.mealtimetinder.backend.security.JWTProvider;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
@@ -38,18 +39,13 @@ public class RestaurantAPI {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserService restaurantService;
+    private UserService userService;
 
     @PostMapping("/login")
     @Operation(summary = "Restaurant Login",
             description = "Restaurant submit login form to log in")
     public ResponseEntity<JWTResponse> login(@RequestBody UserLoginForm loginForm) {
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword());
-        Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        log.info("Restaurant Login....... \n username: {} \t password {}", loginForm.getUsername(), loginForm.getPassword());
-        String accessToken = JWTProvider.generateToken(authentication);
+        String accessToken = userService.login(loginForm, User.Role.ADMIN, authenticationManager);
         return ResponseEntity.ok(new JWTResponse(accessToken));
     }
 
