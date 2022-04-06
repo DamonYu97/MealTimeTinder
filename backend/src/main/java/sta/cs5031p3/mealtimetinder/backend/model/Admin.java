@@ -1,5 +1,7 @@
 package sta.cs5031p3.mealtimetinder.backend.model;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -12,6 +14,10 @@ import javax.persistence.Table;
 @Entity
 @Getter
 @Table(name = "admin")
+@NoArgsConstructor
 public class Admin extends User {
 
+    public Admin(String username,String password,Status status,String address,String postcode){
+        super(null, username,password,status, Role.ADMIN,address,postcode);
+    }
 }

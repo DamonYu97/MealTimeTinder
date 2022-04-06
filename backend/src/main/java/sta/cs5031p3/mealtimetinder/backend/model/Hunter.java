@@ -11,10 +11,12 @@ import javax.persistence.*;
  */
 @Entity
 @Getter
+@Setter
 @Table(name = "hunter")
+@NoArgsConstructor
 public class Hunter extends User {
 
-    @OneToOne(mappedBy = "hunter", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Cookbook cookbook;
+    public Hunter(String username,String password,Status status,String address,String postcode){
+        super(null, username,password,status,Role.HUNTER ,address,postcode);
+    }
 }

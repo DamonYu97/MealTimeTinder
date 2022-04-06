@@ -2,7 +2,7 @@ package sta.cs5031p3.mealtimetinder.backend.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
-import sta.cs5031p3.mealtimetinder.backend.model.Admin;
+
 import sta.cs5031p3.mealtimetinder.backend.model.User;
 
 import java.util.Optional;
@@ -20,4 +20,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findUserByUsernameAndRoleAndStatus(String username, User.Role role, User.Status status);
 
     Optional<User> findUserByStatusAndUsernameAndPassword(User.Status status, String username, String password);
+
 }

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import sta.cs5031p3.mealtimetinder.backend.model.Admin;
 import sta.cs5031p3.mealtimetinder.backend.model.User;
 import sta.cs5031p3.mealtimetinder.backend.repository.UserRepository;
 import sta.cs5031p3.mealtimetinder.backend.service.impl.UserServiceImpl;
@@ -31,12 +32,15 @@ public class UserServiceTests {
     @Test
     public void getAllUserTest() {
         List<User> users = new ArrayList<>();
-        users.add(new User(null, "damon", "120",
-                User.Status.REGISTERED, User.Role.ADMIN, null, null ));
-        users.add(new User(null, "johnny", "120",
-                User.Status.REGISTERED, User.Role.ADMIN, null, null ));
+        users.add(new Admin("conor","120",
+                User.Status.REGISTERED, User.Role.ADMIN,"St Andrews","KY16"));
+        users.add(new Admin("cono","120",
+                User.Status.REGISTERED, User.Role.ADMIN,"St Andrews","KY16"));
+
         when(userRepository.findAll()).thenReturn(users);
-        assertEquals(2, userService.getAllUsers().size());
+
+        assertEquals(2,userRepository.count());
+
     }
 
 }
