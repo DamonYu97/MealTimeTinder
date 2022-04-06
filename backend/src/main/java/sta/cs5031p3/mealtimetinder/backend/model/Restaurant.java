@@ -30,7 +30,7 @@ public class Restaurant extends User {
         this.meals.add(meal);
     }
 
-    @ManyToMany(targetEntity = Meal.class)
+    @ManyToMany(mappedBy = "restaurants")
     private List<Meal> meals;
 
 }
