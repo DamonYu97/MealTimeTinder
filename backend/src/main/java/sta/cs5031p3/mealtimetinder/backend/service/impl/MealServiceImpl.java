@@ -1,6 +1,8 @@
 package sta.cs5031p3.mealtimetinder.backend.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import sta.cs5031p3.mealtimetinder.backend.model.Meal;
 import sta.cs5031p3.mealtimetinder.backend.model.Recipe;
@@ -24,6 +26,11 @@ public class MealServiceImpl implements MealService {
     @Override
     public Meal getRandomMeal() {
         return null;
+    }
+
+    @Override
+    public List<Meal> getRecent5Meals() {
+        return mealRepository.findAll(PageRequest.of(0, 5)).toList();
     }
 
     public Meal saveMeal(Meal meal) {
