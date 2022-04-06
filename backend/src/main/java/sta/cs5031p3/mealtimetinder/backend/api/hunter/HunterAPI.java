@@ -16,6 +16,8 @@ import sta.cs5031p3.mealtimetinder.backend.model.*;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/hunter")
 @OpenAPIDefinition(info = @Info(title = "Hunter Account API",
@@ -55,10 +57,10 @@ public class HunterAPI {
         return userService.getRegisteredHunterByUsername(username);
     }
 
-
-    public Meal getMeal() {
-        Meal meal = mealService.getRandomMeal();
-        return meal;
+    @GetMapping("/meals")
+    public List<Meal> getMeal() {
+        log.info("meals");
+        return mealService.getRecent5Meals();
     }
 
     public Cookbook getCookbook() {
