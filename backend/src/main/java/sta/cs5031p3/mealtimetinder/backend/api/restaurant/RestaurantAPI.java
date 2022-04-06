@@ -1,13 +1,23 @@
 package sta.cs5031p3.mealtimetinder.backend.api.restaurant;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+import sta.cs5031p3.mealtimetinder.backend.model.JWTResponse;
 import sta.cs5031p3.mealtimetinder.backend.model.Meal;
+import sta.cs5031p3.mealtimetinder.backend.model.User;
+import sta.cs5031p3.mealtimetinder.backend.model.UserLoginForm;
+import sta.cs5031p3.mealtimetinder.backend.security.JWTProvider;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
 
 import java.util.List;
@@ -21,10 +31,23 @@ import java.util.List;
         contact = @Contact(name = "CS5031 P3 Group B",
                 url = "https://gitlab.cs.st-andrews.ac.uk/cs5031groupb/project-code")
 ))
+@Slf4j
 public class RestaurantAPI {
 
+    @Qualifier("restaurantAuthManager")
     @Autowired
-    private UserService restaurantService;
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserService userService;
+
+    @PostMapping("/login")
+    @Operation(summary = "Restaurant Login",
+            description = "Restaurant submit login form to log in")
+    public ResponseEntity<JWTResponse> login(@RequestBody UserLoginForm loginForm) {
+        String accessToken = userService.login(loginForm, User.Role.ADMIN, authenticationManager);
+        return ResponseEntity.ok(new JWTResponse(accessToken));
+    }
 
     public List<Meal> searchMeal(String mealName) {
         return null;
