@@ -11,6 +11,7 @@ import sta.cs5031p3.mealtimetinder.backend.repository.RecipeRepository;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class MealServiceImpl implements MealService {
@@ -29,6 +30,14 @@ public class MealServiceImpl implements MealService {
     @Override
     public List<Meal> getRecent5Meals() {
         return mealRepository.findAll(PageRequest.of(0, 5)).toList();
+    }
+
+    @Override
+    public List<Meal> getRandom5Meals() {
+        //Get a random page number
+        int totalPage = (int) (mealRepository.count() / 5);
+        Random random = new Random();
+        return mealRepository.findAll(PageRequest.of(random.nextInt(totalPage), 5)).toList();
     }
 
     public Meal saveMeal(Meal meal) {

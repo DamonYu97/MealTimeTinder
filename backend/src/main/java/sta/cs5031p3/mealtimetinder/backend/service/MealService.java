@@ -15,6 +15,8 @@ public interface MealService {
 
     List<Meal> getRecent5Meals();
 
+    public List<Meal> getRandom5Meals();
+
     Meal saveMeal(Meal meal);
 
     Recipe saveRecipe(Recipe recipe);

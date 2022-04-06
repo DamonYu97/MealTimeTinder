@@ -60,7 +60,7 @@ public class HunterAPI {
     @GetMapping("/meals")
     public List<Meal> getMeal() {
         log.info("meals");
-        return mealService.getRecent5Meals();
+        return mealService.getRandom5Meals();
     }
 
     public Cookbook getCookbook() {
