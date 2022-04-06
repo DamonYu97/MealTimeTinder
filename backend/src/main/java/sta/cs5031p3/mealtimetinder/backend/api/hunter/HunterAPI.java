@@ -61,10 +61,10 @@ public class HunterAPI {
         return userService.getRegisteredHunterByUsername(username);
     }
 
-    @GetMapping("/getMeal")
-    public Meal getMeal() {
-        Meal meal = mealService.getRandomMeal();
-        return meal;
+    @GetMapping("/meals")
+    public List<Meal> getMeal() {
+        log.info("meals");
+        return mealService.getRandom5Meals();
     }
 
     public Cookbook getCookbook() {

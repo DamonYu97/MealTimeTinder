@@ -19,6 +19,8 @@ public interface MealService {
 
     Meal getSpecificMeal(String mealName);
 
+    public List<Meal> getRandom5Meals();
+
     Meal saveMeal(Meal meal);
 
     Recipe saveRecipe(Recipe recipe);
