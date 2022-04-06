@@ -3,6 +3,9 @@ package sta.cs5031p3.mealtimetinder.backend.service;
 import sta.cs5031p3.mealtimetinder.backend.model.Meal;
 import sta.cs5031p3.mealtimetinder.backend.model.Recipe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface MealService {
 
     /**
@@ -18,5 +21,7 @@ public interface MealService {
     Recipe saveRecipe(Recipe recipe);
 
     Meal addRecipeToMeal(Meal meal,Recipe recipe);
+
+    List<Recipe> getAllRecipesForMeal(Meal meal);
 
 }

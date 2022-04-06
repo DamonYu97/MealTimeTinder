@@ -9,6 +9,7 @@ import sta.cs5031p3.mealtimetinder.backend.repository.MealRepository;
 import sta.cs5031p3.mealtimetinder.backend.repository.RecipeRepository;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,6 +62,12 @@ public class MealServiceImpl implements MealService {
         meal.setRecipes(currentRecipes);
 
         return mealRepository.save(meal);
+    }
+
+    @Override
+    public List <Recipe> getAllRecipesForMeal(Meal meal){
+        // TO DO
+        return meal.getRecipes();
     }
 
 }

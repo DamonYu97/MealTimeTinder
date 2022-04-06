@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import sta.cs5031p3.mealtimetinder.backend.model.*;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
+import java.util.List;
+
+import java.util.ArrayList;
 
 @CrossOrigin
 @RestController
@@ -66,6 +69,17 @@ public class HunterAPI {
         //get user info
         //validate
         return null;
+    }
+
+    @PostMapping("/getRecipesForMeal/{meal}")
+    public List <Recipe> getRecipesFromMeal(
+            @PathVariable ("meal") Meal meal
+    ){
+        try {
+            return getRecipesFromMeal(meal);
+        } catch (Exception e){
+            return null;
+        }
     }
 
     @PostMapping("/addMealToCookbook/{mealID}")
