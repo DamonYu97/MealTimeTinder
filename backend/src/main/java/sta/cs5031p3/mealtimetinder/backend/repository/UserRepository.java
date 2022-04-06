@@ -23,4 +23,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findUserByStatusAndUsernameAndPassword(User.Status status, String username, String password);
 
     List<User> getAllByRole(User.Role role);
+
+
 }

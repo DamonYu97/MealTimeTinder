@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import sta.cs5031p3.mealtimetinder.backend.model.*;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
+import java.util.List;
+
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -60,40 +63,60 @@ public class HunterAPI {
     @GetMapping("/meals")
     public List<Meal> getMeal() {
         log.info("meals");
-        return mealService.getRecent5Meals();
+        return mealService.getRandom5Meals();
     }
 
-    public Cookbook getCookbook() {
+   /* public Cookbook getCookbook() {
         //get user info
         //validate
         return null;
+    }*/
+
+    @PostMapping("/getRecipesForMeal/{meal}")
+    public List<Recipe> getRecipesFromMeal(
+            @PathVariable("meal") Meal meal
+    ) {
+        try {
+            return getRecipesFromMeal(meal);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
-    @PostMapping("/addMealToFavourite/{id}")
-    public boolean addMealToCookbook(long id) {
-        //function MEAL = mealService.getMealFromID
-        //add MEAL to cookbook;
-        return false;
+    @PostMapping("/getRestaurantFromMeal/{meal}")
+    public List<Restaurant> getRestaurantFromMeal(
+            @PathVariable("meal") Meal meal
+    ){
+        try {
+            return getRestaurantFromMeal(meal);
+        } catch (Exception e){
+            return null;
+        }
     }
 
-
-    @PostMapping("/createNewHunterAccount/{address}/{password}/{username}")
+    @PostMapping("/createNewHunterAccount/{password}/{username}")
     public boolean addAccount(
-            @PathVariable String address,
             @PathVariable String password,
             @PathVariable String username
     ) {
         try {
-            userService.saveUser(new User(null, username, password, User.Status.REGISTERED, User.Role.HUNTER, address, null));
+            userService.saveUser(new User(null, username, password, User.Status.REGISTERED, User.Role.HUNTER, null, null));
             return true;
-        }catch(Exception e){
+        } catch (Exception e){
             return false;
         }
     }
 
-
-    public boolean removeMealFromCookbook(long id) {
-        return false;
+    @PostMapping("/addMealToCookbook/{mealID}")
+    public boolean removeMealFromCookbook(
+            @PathVariable ("mealID") int mealID
+    ) {
+        try {
+            removeMealFromCookbook(mealID);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 
 }

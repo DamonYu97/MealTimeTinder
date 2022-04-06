@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -23,16 +21,16 @@ public class Restaurant extends User {
     public Restaurant(String username,String password,Status status,String address,String postcode,String description,List<Meal> meals){
         super(null, username, password, status,Role.RESTAURANT, address, postcode);
         this.description = description;
-        this.meals = meals;
+        this.servedMeals = meals;
     }
 
     private String description;
 
-    public void addMeal(Meal meal){
-        this.meals.add(meal);
-    }
 
-    @ManyToMany(mappedBy = "restaurants")
-    private List<Meal> meals;
+    @ManyToMany
+    @JoinTable(name = "restaurant_serves",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "meal_id"))
+    private List<Meal> servedMeals;
 
 }
