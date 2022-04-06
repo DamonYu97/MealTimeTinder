@@ -1,0 +1,46 @@
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+  }
+
+  .top-buffer { margin-top:20px; }
+
+#foodImage {
+    margin: auto;
+    height: 300px;
+    width: 300px;
+    border-radius: 10%;
+}
+
+.relative button {
+  position: relative;
+  align-items: center;
+  margin: 5px;
+ }
+
+button {
+   border-radius: 10%;
+ }
+
+ .navitem {
+   display: inline-block;
+   text-align: center;
+   cursor: pointer;
+   border-radius: 10%;
+ }
+
+#favButton {
+  width: fit-content;
+  margin: auto;
+}
+
+.scr1Buttons button {
+  padding: 10px 24px;
+  display: inline;
+  margin: 5px;
+}
+

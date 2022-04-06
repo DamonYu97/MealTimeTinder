@@ -33,9 +33,9 @@ public class UserServiceTests {
     public void getAllUserTest() {
         List<User> users = new ArrayList<>();
         users.add(new Admin("conor","120",
-                User.Status.REGISTERED, User.Role.ADMIN,"St Andrews","KY16"));
+                User.Status.REGISTERED,"St Andrews","KY16"));
         users.add(new Admin("cono","120",
-                User.Status.REGISTERED, User.Role.ADMIN,"St Andrews","KY16"));
+                User.Status.REGISTERED,"St Andrews","KY16"));
 
         when(userRepository.findAll()).thenReturn(users);
 

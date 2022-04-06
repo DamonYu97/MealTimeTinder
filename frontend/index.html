@@ -2,12 +2,416 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Meal Time Tinder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MealTime Matcher</title>
+    <!--Bootstrap 5-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
     <!--Vue.js 3-->
     <script src="https://unpkg.com/vue@3"></script>
 </head>
 <body>
+<header>
+    <nav class="navbar navbar-dark bg-dark justify-content-center">
+        <a class="navbar-brand m-2 p-2 h1" href="#">
+            MealTime Matcher
+          </a>
+
+    </nav>
+</header>
+        
+    <main class="container" id="app">
+
+        <!--Render HOME (1)-->
+        <div class="row top-buffer" v-if="screen == 1">
+            <h2>Welcome to</h2>
+            <h1>MealTime Matcher</h1>
+            <h2>Select User Type:</h2>
+
+            <!-- @click these buttons need to v-model form bindings to update user type and screen-->
+            <div class="scr1Buttons">
+            <button @click="screen8">User</button>
+            <button @click="screen11">Restaurant</button>
+            <button @click="screen15">Admin</button>
+            <button @click="screen2(); getNewMeal();">Continue as Guest</button>
+            </div>
+        </div>
+
+        <!--Render USER CHOICE SCREEN (2)-->
+        <div class="row top-buffer" v-if="screen == 2">
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <!-- @click these buttons need to send a POST request to get info for that screen-->
+            <div class="relative">
+            <button @click="screen2(); getNewMeal();" class="navitem">Keep Choosing</button>
+            <button @click="screen18();" class="navitem">Favourites</button>
+            <button @click="logout();" class="navitem">Logout</button>
+            </div>
+            <pre></pre>
+            <h1>MealTime Matcher</h1>
+
+            <!-- pull a link or file from request -->
+            <div class="relative">
+            <button @click="getNewMeal();">Dislike</button>
+            <img :src=foodImage id="foodImage"/> 
+            <button @click="screen3();">Like</button>
+            </div>
+            <pre></pre>
+            <h3>{{ foodDescription }}</h3>
+            
+
+            <!-- @click these buttons need to send a POST about whether they liked that food, disliked, or favourited-->
+            <pre></pre>
+            <button @click="addToFavourites();" id="favButton">Add To Favourites</button>
+
+        </div>
+
+        <!--Render COOK ORDER CHOICE (3)-->
+        <div class="row top-buffer" v-if="screen == 3">
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <!-- @click these buttons need to send a POST request to get info for that screen-->
+            <div class="relative">
+                <button @click="screen2(); getNewMeal();" class="navitem">Keep Choosing</button>
+                <button @click="screen18();" class="navitem">Favourites</button>
+                <button @click="logout();" class="navitem">Logout</button>
+                </div>
+                <pre></pre>
+            <h1>MealTime Matcher</h1>
+
+            <!-- pull a link or file from request -->
+            <img :src=foodImage id="foodImage"/> 
+            <h3>{{ foodDescription }}</h3>
+
+            <h2>I want to:</h2>
+
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <!-- @click these buttons need to send a POST request for either the recipes or restaurants of this food-->
+            <div class="relative">
+                <button @click="screen4(); getCookOptions();">Cook</button>
+                <button @click="screen6(); getOrderOptions();">Order</button>
+            </div>
+            
+            
+        </div>
+
+        <!--Render COOK OPTIONS (4)-->
+        <div class="row top-buffer" v-if="screen == 4">
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <!-- @click these buttons need to send a POST request to get info for that screen-->
+            <div class="relative">
+                <button @click="screen2(); getNewMeal();" class="navitem">Keep Choosing</button>
+                <button @click="screen18();" class="navitem">Favourites</button>
+                <button @click="logout();" class="navitem">Logout</button>
+                </div>
+                <pre></pre>
+            <h1>MealTime Matcher</h1>
+
+            <!-- pull a link or file from request -->
+            <img :src=foodImage id="foodImage"/> 
+            <h3>{{ foodDescription }}</h3>
+
+            <h2>Recipes</h2>
+
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <!-- @click these buttons need to send a POST request to get recipe for that screen-->
+            <button @click="screen5(); getChosenRecipeContent(recipeTitle1);">{{ recipeTitle1 }}</button>
+            <button @click="screen5(); getChosenRecipeContent(recipeTitle2);">{{ recipeTitle2 }}</button>
+            <button @click="screen5(); getChosenRecipeContent(recipeTitle3);">{{ recipeTitle3 }}</button>
+        </div>
+
+        <!--Render RECIPE (5)-->
+        <div class="row top-buffer" v-if="screen == 5">
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <!-- @click these buttons need to send a POST request to get info for that screen-->
+            <div class="relative">
+                <button @click="screen2(); getNewMeal();" class="navitem">Keep Choosing</button>
+                <button @click="screen18();" class="navitem">Favourites</button>
+                <button @click="logout();" class="navitem">Logout</button>
+                </div>
+                <pre></pre>
+            <h1>MealTime Matcher</h1>
+
+            <!-- pull a link or file from request -->
+            <img :src=foodImage id="foodImage"/> 
+            <h3>{{ foodDescription }}</h3>
+
+            <h2>{{ chosenRecipeTitle }}</h2>
+            <h3>{{ chosenRecipeContent }}</h3>
+        </div>
+
+        <!--Render ORDER OPTIONS (6)-->
+        <div class="row top-buffer" v-if="screen == 6">
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <!-- @click these buttons need to send a POST request to get info for that screen-->
+            <div class="relative">
+                <button @click="screen2(); getNewMeal();" class="navitem">Keep Choosing</button>
+                <button @click="screen18();" class="navitem">Favourites</button>
+                <button @click="logout();" class="navitem">Logout</button>
+                </div>
+                <pre></pre>
+            <h1>MealTime Matcher</h1>
+
+            <!-- pull a link or file from request -->
+            <img :src=foodImage id="foodImage"/> 
+            <h3>{{ foodDescription }}</h3>
+
+            <h2>Restaurants</h2>
+
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <!-- @click these buttons need to send a POST request to get recipe for that screen-->
+            <button @click="makeChosenRestaurant(restaurantName1); screen7(); getChosenRestaurantData();">{{ restaurantName1 }}</button>
+            <button @click="makeChosenRestaurant(restaurantName2); screen7(); getChosenRestaurantData();">{{ restaurantName2 }}</button>
+            <button @click="makeChosenRestaurant(restaurantName3); screen7(); getChosenRestaurantData();">{{ restaurantName3 }}</button>
+        </div>
+
+        <!--Render RESTAURANT (7)-->
+        <div class="row top-buffer" v-if="screen == 7">
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <!-- @click these buttons need to send a POST request to get info for that screen-->
+            <div class="relative">
+                <button @click="screen2(); getNewMeal();" class="navitem">Keep Choosing</button>
+                <button @click="screen18();" class="navitem">Favourites</button>
+                <button @click="logout();" class="navitem">Logout</button>
+                </div>
+                <pre></pre>
+            <h1>MealTime Matcher</h1>
+
+            <!-- pull a link or file from request -->
+            <img :src=foodImage id="foodImage"/> 
+            <h3>{{ foodDescription }}</h3>
+
+            <h2>{{ chosenRestaurantName }}</h2>
+            <h3>Address:</h3>
+            <h3>{{ chosenRestaurantAddress }}</h3>
+            <h3>Website:</h3>
+            <h3>{{ chosenRestaurantWebsite }}</h3>
+        </div>
+
+        <!--Render HUNTER SCREEN (8)-->
+        <div class="row top-buffer" v-if="screen == 8">
+            <h1>MealTime Matcher</h1>
+
+            <h2>User</h2>
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <button @click="screen9();">Sign In</button>
+            <pre></pre>
+            <button @click="screen10();">New User</button>
+        </div>
+
+        <!--Render USER LOGIN (9)-->
+        <div class="row top-buffer" v-if="screen == 9">
+            <h1>MealTime Matcher</h1>
+            <h2>User Login</h2>
+
+            <h2>Username</h2>
+            <input v-model="hunterUsername" placeholder="enter username here">
+            <h2>Password</h2>
+            <input v-model="hunterPassword" placeholder="enter password here">
+
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <!-- needs method to send POST to see if login details are correct-->
+            <pre></pre>
+            <button @click="checkIfHunterExists(); screen2();">Log In</button>
+        </div>
+
+        <!--Render USER SIGN UP (10)-->
+        <div class="row top-buffer" v-if="screen == 10">
+            <h1>MealTime Matcher</h1>
+
+            <h2>New User</h2>
+
+            <h2>Enter Username</h2>
+            <input v-model="hunterUsernameIn" placeholder="enter username here">
+            <h2>Enter Password</h2>
+            <input v-model="hunterPasswordIn" placeholder="enter password here">
+            <h2>Re-Enter Password</h2>
+            <input v-model="hunterPasswordReIn" placeholder="re-enter password here">
+
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <!-- needs method to send POST to register login details-->
+            <pre></pre>
+            <button @click="createNewHunterAccount(); screen9();">Submit</button>
+        </div>
+
+        <!--Render RESTAURANT SCREEN (11)-->
+        <div class="row top-buffer" v-if="screen == 11">
+            <h1>MealTime Matcher</h1>
+
+            <h2>Restaurant</h2>
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <button @click="screen12();">Sign In</button>
+            <pre></pre>
+            <button @click="screen13();">New Restaurant User</button>
+        </div>
+
+        <!--Render RESTAURANT LOGIN (12)-->
+        <div class="row top-buffer" v-if="screen == 12">
+            <h1>MealTime Matcher</h1>
+            <h2>Restaurant Login</h2>
+
+            <h2>Username</h2>
+            <input v-model="restaurantUsername" placeholder="enter username here">
+            <h2>Password</h2>
+            <input v-model="restaurantPassword" placeholder="enter password here">
+
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <!-- needs method to send POST to see if login details are correct-->
+            <pre></pre>
+            <button @click="checkIfRestaurantExists(); getRestaurantMeals(); screen14();">Log In</button>
+        </div>
+
+        <!--Render RESTAURANT SIGN UP (13)-->
+        <div class="row top-buffer" v-if="screen == 13">
+            <h1>MealTime Matcher</h1>
+
+            <h2>New Restaurant</h2>
+
+            <h2>Enter Username</h2>
+            <input v-model="restaurantUsernameIn" placeholder="enter username here">
+            <h2>Enter Password</h2>
+            <input v-model="restuarantPasswordIn" placeholder="enter password here">
+            <h2>Re-Enter Password</h2>
+            <input v-model="restaurantPasswordReIn" placeholder="re-enter password here">
+            <h2>Enter Address</h2>
+            <input v-model="restaurantAddressIn" placeholder="enter address here">
+            <h2>Enter Website</h2>
+            <input v-model="restaurantWebsiteIn" placeholder="enter website here">
+
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <!-- needs method to send POST to register login details-->
+            <pre></pre>
+            <button @click="createNewRestaurantAccount(); screen12();">Submit</button>
+        </div>
+
+        <!--Render RESTAURANT MEAL SELECTION (14)-->
+        <div class="row top-buffer" v-if="screen == 14">
+            <h1>MealTime Matcher</h1>
+            <h2>Select which meals you'd like to add to your offering</h2>
+            
+            <div id="checkboxes">
+                <label>Granola</label>
+                <input type="checkbox" value="Granola" v-model="meals"/>
+                <label>Grapes</label>
+                <input type="checkbox" value="Grapes" v-model="meals"/>
+                <label>Guacamole</label>
+                <input type="checkbox" value="Guacamole" v-model="meals"/>
+                <label>Goose</label>
+                <input type="checkbox" value="Goose" v-model="meals"/>
+                <label>Guava</label>
+                <input type="checkbox" value="Guava" v-model="meals"/>
+            </div>
+
+            <div v-for="role in roles" :key="role.id">
+                <label>{{role.name}}</label>
+                <input type="checkbox" v-model="user.roles" :value="role"/>
+            </div>
+
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <!-- needs method to send POST to register login details-->
+            <pre></pre>
+            <button @click="addMealsToRestaurant();">Submit</button>
+        </div>
+
+        <!--Render ADMIN LOGIN (15)-->
+        <div class="row top-buffer" v-if="screen == 15">
+            <h1>MealTime Matcher</h1>
+            <h2>Admin Login</h2>
+
+            <h2>Username</h2>
+            <input v-model="adminUsername" placeholder="enter username here">
+            <h2>Password</h2>
+            <input v-model="adminPassword" placeholder="enter password here">
+
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <!-- needs method to send POST to see if login details are correct-->
+            <pre></pre>
+            <button @click="checkIfAdminExists(); getRestaurantApplicationNames(); screen16();">Log In</button>
+        </div>
+
+        <!--Render ADMIN VIEW RESTAURANT APPLICATIONS (16)-->
+        <div class="row top-buffer" v-if="screen == 16">
+            <h1>MealTime Matcher</h1>
+            <h2>Restaurant Applications</h2>
+
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <!-- @click these buttons need to send a POST request to get recipe for that screen-->
+            <button @click="makeChosenApplication(applicationName1); getRestaurantApplicationData(); screen17();">{{ applicationName1 }}</button>
+            <button @click="makeChosenApplication(applicationName2); getRestaurantApplicationData(); screen17();">{{ applicationName2 }}</button>
+            <button @click="makeChosenApplication(applicationName3); getRestaurantApplicationData(); screen17();">{{ applicationName3 }}</button>
+        </div>
+
+        <!--Render ADMIN APPROVE OR DENY APPLICATION (17)-->
+        <div class="row top-buffer" v-if="screen == 17">
+            <h1>MealTime Matcher</h1>
+            <h2>{{ applicationName }}</h2>
+            <h3>Address:</h3>
+            <h3>{{ applicationAddress }}</h3>
+            <h3>Website:</h3>
+            <h3>{{ applicationWebsite }}</h3>
+
+            <!-- @click these buttons need to send a POST request to get recipe for that screen-->
+            <pre></pre>
+            <button @click="approveChosenApplication();">APPROVE</button>
+            <pre></pre>
+            <button @click="denyChosenApplication();">DENY</button>
+        </div>
+
+        <!--Render FAVOURITES (18)-->
+        <div class="row top-buffer" v-if="screen == 18">
+            <h1>MealTime Matcher</h1>
+            <h2>Favourites</h2>
+
+            <!-- @click these buttons need to v-model form bindings to update screen-->
+            <!-- @click these buttons need to send a POST request to get the COOK ORDER for this food-->
+            <button @click="getSpecificMeal(favourite1); screen3();">{{ favourite1 }}</button>
+            <button @click="getSpecificMeal(favourite2); screen3();">{{ favourite2 }}</button>
+            <button @click="getSpecificMeal(favourite3); screen3();">{{ favourite3 }}</button>
+        </div>
+
+        <!--Render LOGIN ERROR (19)-->
+        <div class="row top-buffer" v-if="areLoginDetailsInvalid">
+            <h1>MealTime Matcher</h1>
+            <h2>LOGIN ERROR - DETAILS INCORRECT</h2>
+
+            <!-- @click these buttons need to v-model form bindings to update screen to previous login screen-->
+            <!-- @click these buttons need to reset the inputted username and password-->
+            <pre></pre>
+            <button @click="screen1();">Press to return</button>
+        </div>
+
+        <!--Render TEST SCREEN (44)-->
+        <div class="row top-buffer" v-if="screen == 44">
+            <h1>ALL DATA:</h1>
+            <h2>{{ result }}</h2>
+            <h1>CHOSEN ATTRIBUTE:</h1>
+            <h2>{{ chosenAttribute }}</h2>
+            <h1>ACCESS KEY</h1>
+            <h2>{{ accessKey }}</h2>
+        
+
+            <!-- @click these buttons need to v-model form bindings to update user type and screen-->
+            <button @click="testPost();">test post method</button>
+            
+            <pre></pre>
+            <!-- @click these buttons need to v-model form bindings to update user type and screen-->
+            <button @click="checkIfRestaurantExists();">test check if restaurant exists</button>
+
+            <pre></pre>
+            <!-- @click these buttons need to v-model form bindings to update user type and screen-->
+            <button @click="checkIfHunterExists();">test check if hunter exists</button>
+
+            <pre></pre>
+            <!-- @click these buttons need to v-model form bindings to update user type and screen-->
+            <button @click="getHunterProfile();">test check get hunter profile</button>
+
+            <pre></pre>
+            <!-- @click these buttons need to v-model form bindings to update user type and screen-->
+            <button @click="adminMealAdd();">test admin meal add</button>
+            
+        </div>
+        
+    </section>
+</main>
+<script src="app.js"></script>
 </body>
 </html>

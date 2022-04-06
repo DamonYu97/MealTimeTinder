@@ -10,13 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import sta.cs5031p3.mealtimetinder.backend.model.*;
-import sta.cs5031p3.mealtimetinder.backend.security.JWTProvider;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
 
@@ -36,7 +32,7 @@ public class HunterAPI {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserService hunterService;
+    private UserService userService;
 
     @Autowired
     private MealService mealService;
@@ -45,12 +41,7 @@ public class HunterAPI {
     @Operation(summary = "Hunter Login",
             description = "Hunter submit login form to log in")
     public ResponseEntity<JWTResponse> login(@RequestBody UserLoginForm loginForm) {
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginForm.getUsername(), loginForm.getPassword());
-        Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        log.info("Hunter Login....... \n username: {} \t password {}", loginForm.getUsername(), loginForm.getPassword());
-        String accessToken = JWTProvider.generateToken(authentication);
+        String accessToken = userService.login(loginForm, User.Role.ADMIN, authenticationManager);;
         return ResponseEntity.ok(new JWTResponse(accessToken));
     }
 
@@ -62,7 +53,7 @@ public class HunterAPI {
     public @ResponseBody
     User getProfile() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return hunterService.getRegisteredHunterByUsername(username);
+        return userService.getRegisteredHunterByUsername(username);
     }
 
 
