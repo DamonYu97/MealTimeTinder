@@ -100,7 +100,7 @@ public class BackendApplication {
                 users.add(conor);
 
 
-                User damon = new Admin("damon",passwordEncoder().encode("1204578614"),
+                User damon = new Admin("damon",passwordEncoder().encode("1204578616"),
                         User.Status.REGISTERED, "St Andrews","KY16");
                 users.add(damon);
 
@@ -130,7 +130,7 @@ public class BackendApplication {
                 users.add(new Restaurant("Tulsi",passwordEncoder().encode("1204578610"),
                         User.Status.REGISTERED,"St Andrews","G64 124","Indian Food",c));
 
-                users.add(new Hunter("Damon",passwordEncoder().encode("1204578609"),
+                users.add(new Hunter("Damon",passwordEncoder().encode("12345678"),
                         User.Status.REGISTERED,"St Andrews","G64 125"));
 
                 users.add(new Hunter("Michael",passwordEncoder().encode("1204578608"),
