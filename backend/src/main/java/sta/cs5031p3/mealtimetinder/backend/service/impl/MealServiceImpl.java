@@ -6,14 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import sta.cs5031p3.mealtimetinder.backend.model.Meal;
 import sta.cs5031p3.mealtimetinder.backend.model.Recipe;
-import sta.cs5031p3.mealtimetinder.backend.model.Restaurant;
 import sta.cs5031p3.mealtimetinder.backend.model.User;
 import sta.cs5031p3.mealtimetinder.backend.repository.MealRepository;
 import sta.cs5031p3.mealtimetinder.backend.repository.RecipeRepository;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -31,8 +30,8 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public Meal getSpecificMeal(String mealName) {
-        return null;
+    public List<Meal> getRecent5Meals() {
+        return mealRepository.findAll(PageRequest.of(0, 5)).toList();
     }
 
     @Override
@@ -76,15 +75,14 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public List <Recipe> getAllRecipesForMeal(Meal meal){
+    public Meal getMealById(Long id){
+        Optional<Meal> meal =mealRepository.getMealById(id);
 
-        return meal.getRecipes();
-    }
+        if(!meal.isPresent()){
+            throw new IllegalArgumentException("Meal does not exist");
+        }
 
-    @Override
-    public List <Restaurant> getAllRestaurantForMeal(Meal meal){
-
-        return meal.getRestaurants();
+        return mealRepository.getMealById(id).orElseThrow();
     }
 
 }
