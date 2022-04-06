@@ -26,6 +26,11 @@ public class MealServiceImpl implements MealService {
         return null;
     }
 
+    @Override
+    public Meal getSpecificMeal(String mealName) {
+        return null;
+    }
+
     public Meal saveMeal(Meal meal) {
         // Optional<Meal> existingMeal = userRepository.findMealByName
         Optional<Meal> existingMeal = mealRepository.findMealByName(meal.getName());

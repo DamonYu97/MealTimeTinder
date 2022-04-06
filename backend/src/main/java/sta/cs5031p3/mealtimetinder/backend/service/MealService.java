@@ -11,9 +11,12 @@ public interface MealService {
      */
     Meal getRandomMeal();
 
+    Meal getSpecificMeal(String mealName);
+
     Meal saveMeal(Meal meal);
 
     Recipe saveRecipe(Recipe recipe);
 
     Meal addRecipeToMeal(Meal meal,Recipe recipe);
+
 }

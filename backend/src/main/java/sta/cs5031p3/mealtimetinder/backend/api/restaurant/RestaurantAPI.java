@@ -67,4 +67,17 @@ public class RestaurantAPI {
         return null;
     }
 
+    @GetMapping("/getSpecificMeal/{mealName}")
+    public Meal getSpecificMeal(
+        @PathVariable("mealName") String meaName
+    ){
+
+        try {
+            Meal meal = getSpecificMeal(meaName);
+            return meal;
+        } catch(Exception e){
+            return null;
+        }
+
+    }
 }
