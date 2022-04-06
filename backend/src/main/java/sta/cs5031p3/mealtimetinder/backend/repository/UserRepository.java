@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import sta.cs5031p3.mealtimetinder.backend.model.User;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -21,4 +22,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findUserByStatusAndUsernameAndPassword(User.Status status, String username, String password);
 
+    List<User> getAllByRole(User.Role role);
 }

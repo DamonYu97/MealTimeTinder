@@ -42,7 +42,8 @@ public class HunterAPI {
     @Operation(summary = "Hunter Login",
             description = "Hunter submit login form to log in")
     public ResponseEntity<JWTResponse> login(@RequestBody UserLoginForm loginForm) {
-        String accessToken = userService.login(loginForm, User.Role.ADMIN, authenticationManager);;
+        String accessToken = userService.login(loginForm, User.Role.ADMIN, authenticationManager);
+        ;
         return ResponseEntity.ok(new JWTResponse(accessToken));
     }
 
@@ -69,9 +70,28 @@ public class HunterAPI {
         return null;
     }
 
+    @PostMapping("/addMealToFavourite/{id}")
     public boolean addMealToCookbook(long id) {
+        //function MEAL = mealService.getMealFromID
+        //add MEAL to cookbook;
         return false;
     }
+
+
+    @PostMapping("/createNewHunterAccount/{address}/{password}/{username}")
+    public boolean addAccount(
+            @PathVariable String address,
+            @PathVariable String password,
+            @PathVariable String username
+    ) {
+        try {
+            userService.saveUser(new User(null, username, password, User.Status.REGISTERED, User.Role.HUNTER, address, null));
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
+
 
     public boolean removeMealFromCookbook(long id) {
         return false;

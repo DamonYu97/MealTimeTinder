@@ -15,5 +15,7 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
 
     Optional<Meal> findMealByName(String name);
 
+    Optional<Meal> getMealById(Long id);
+
     // Optional<Meal> findMealbyName()
 }
