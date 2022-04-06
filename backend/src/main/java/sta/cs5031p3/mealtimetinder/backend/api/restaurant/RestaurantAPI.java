@@ -22,7 +22,6 @@ import sta.cs5031p3.mealtimetinder.backend.service.UserService;
 
 import java.util.List;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/restaurant")
 @OpenAPIDefinition(info = @Info(title = "Restaurant API",

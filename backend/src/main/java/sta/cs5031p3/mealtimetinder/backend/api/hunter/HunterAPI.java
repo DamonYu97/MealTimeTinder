@@ -16,7 +16,6 @@ import sta.cs5031p3.mealtimetinder.backend.model.*;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/hunter")
 @OpenAPIDefinition(info = @Info(title = "Hunter Account API",
