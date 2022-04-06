@@ -47,6 +47,7 @@ public class UserServiceTests {
 
     @Test
     public void getAllAdminUserTest2() {
+
         List<User> users = new ArrayList<>();
         users.add(new Admin("conor", "120",
                 User.Status.REGISTERED, "St Andrews", "KY16"));
