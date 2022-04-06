@@ -14,6 +14,8 @@ import sta.cs5031p3.mealtimetinder.backend.service.UserService;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @SecuritySchemes(value = {
         @SecurityScheme(
@@ -40,6 +42,7 @@ public class BackendApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
+
     }
 
     @Bean
@@ -57,20 +60,46 @@ public class BackendApplication {
     CommandLineRunner run(UserService userService, MealService mealService) {
         return args -> {
             try {
-                //MEALS
-                Meal burger = new Meal(null,"Burger","meals/burger.jpg",null,null);
+
+                Meal burger = new Meal(null,"Burger","meals/burger.jpg",null,null,null);
                 mealService.saveMeal(burger);
-                Meal chicken = new Meal(null,"Grilled Chicken","meals/chicken.jpg",null,null);
+                Meal chicken = new Meal(null,"Grilled Chicken","meals/chicken.jpg",null,null,null);
                 mealService.saveMeal(chicken);
-                Meal pizza = new Meal(null,"Pizza","meals/pizza.jpg",null,null);
+                List<Meal> meals = Arrays.asList(burger,chicken);
+
+                mealService.saveMeal(burger);
+                mealService.saveMeal(chicken);
+
+                Hunter conor = new Hunter("Conor test",passwordEncoder().encode("1204578606"),
+                        User.Status.REGISTERED, "St Andrews","G64 128",meals);
+                Hunter damon = new Hunter("Damon test",passwordEncoder().encode("1204578606"),
+                        User.Status.REGISTERED, "St Andrews","G64 128",meals);
+
+                Restaurant paesano = new Restaurant("Paesano",passwordEncoder().encode("1204578611"),
+                        User.Status.PENDING,"Glasgow","G64 123","Italian Food",meals);
+
+
+                List<Hunter> hunters = Arrays.asList(conor,damon);
+
+                userService.saveUser(conor);
+                userService.saveUser(damon);
+                userService.saveUser(paesano);
+
+
+                //MEALS
+                /*Meal burger = new Meal(null,"Burger","meals/burger.jpg",null,null,null);
+                mealService.saveMeal(burger);
+                Meal chicken = new Meal(null,"Grilled Chicken","meals/chicken.jpg",null,null,null);
+                mealService.saveMeal(chicken);
+                Meal pizza = new Meal(null,"Pizza","meals/pizza.jpg",null,null,null);
                 mealService.saveMeal(pizza);
-                Meal indian = new Meal(null,"Tikka Masala","meals/Tikka-masala.jpg",null,null);
+                Meal indian = new Meal(null,"Tikka Masala","meals/Tikka-masala.jpg",null,null,null);
                 mealService.saveMeal(indian);
-                Meal pakora = new Meal(null,"Pakora","meals/pakora.jpg",null,null);
+                Meal pakora = new Meal(null,"Pakora","meals/pakora.jpg",null,null,null);
                 mealService.saveMeal(pakora);
-                Meal fish = new Meal(null,"Fish and Chips","meals/fish.jpg",null,null);
+                Meal fish = new Meal(null,"Fish and Chips","meals/fish.jpg",null,null,null);
                 mealService.saveMeal(fish);
-                Meal scampi = new Meal(null,"Scampi","meals/scampi.jpg",null,null);
+                Meal scampi = new Meal(null,"Scampi","meals/scampi.jpg",null,null,null);
                 mealService.saveMeal(scampi);
 
                 //RECIPES
@@ -108,7 +137,6 @@ public class BackendApplication {
                 ArrayList<Meal> a = new ArrayList<Meal>();
                 a.add(burger); a.add(chicken); a.add(pizza);
 
-
                 User ziggy = new Restaurant("Ziggys",passwordEncoder().encode("1204578612"),
                         User.Status.REGISTERED, "St Andrews","KY16","American Food", a);
                 users.add(ziggy);
@@ -120,6 +148,7 @@ public class BackendApplication {
                         User.Status.REGISTERED,"St Andrews","KY16","Grilled Chicken",b);
 
                 users.add(nandos);
+
 
 
                 users.add(new Restaurant("Paesano",passwordEncoder().encode("1204578611"),
@@ -139,13 +168,16 @@ public class BackendApplication {
                 users.add(new Hunter("Jonny",passwordEncoder().encode("1204578607"),
                         User.Status.PENDING, "St Andrews","G64 127"));
 
-                users.add(new Hunter("Conor",passwordEncoder().encode("1204578606"),
-                        User.Status.REGISTERED, "St Andrews","G64 128"));
 
                 for(User user: users){
                     userService.saveUser(user);
                 }
 
+                Hunter conortest = new Hunter("Conor test",passwordEncoder().encode("1204578606"),
+                        User.Status.REGISTERED, "St Andrews","G64 128");
+
+                conortest.addFavouriteMeal(burger);
+                userService.saveUser(conortest);*/
 
 
             } catch (Exception e) {

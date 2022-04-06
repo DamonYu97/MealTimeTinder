@@ -64,11 +64,11 @@ public class HunterAPI {
         return mealService.getRecent5Meals();
     }
 
-    public Cookbook getCookbook() {
+   /* public Cookbook getCookbook() {
         //get user info
         //validate
         return null;
-    }
+    }*/
 
     @PostMapping("/addMealToFavourite/{id}")
     public boolean addMealToCookbook(long id) {
@@ -78,14 +78,13 @@ public class HunterAPI {
     }
 
 
-    @PostMapping("/createNewHunterAccount/{address}/{password}/{username}")
+    @PostMapping("/createNewHunterAccount/{password}/{username}")
     public boolean addAccount(
-            @PathVariable String address,
             @PathVariable String password,
             @PathVariable String username
     ) {
         try {
-            userService.saveUser(new User(null, username, password, User.Status.REGISTERED, User.Role.HUNTER, address, null));
+            userService.saveUser(new User(null, username, password, User.Status.REGISTERED, User.Role.HUNTER, null, null));
             return true;
         }catch(Exception e){
             return false;
