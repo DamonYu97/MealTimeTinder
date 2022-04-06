@@ -1,5 +1,6 @@
 package sta.cs5031p3.mealtimetinder.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,5 +25,6 @@ public class Recipe {
 
     @ManyToOne
     @JoinColumn(name = "meal_id", nullable = false)
+    @JsonIgnore
     private Meal meal;
 }
