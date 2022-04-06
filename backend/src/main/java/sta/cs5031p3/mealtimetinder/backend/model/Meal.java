@@ -29,8 +29,11 @@ public class Meal {
     @OneToMany(mappedBy = "meal")
     List<Recipe> recipes;
 
-    @ManyToMany
-    @JoinTable(name = "meal_restaurant", joinColumns = @JoinColumn(name = "meal_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "restaurant_id", referencedColumnName = "id"))
-    List<Restaurant> restaurants;
+    @ManyToMany(mappedBy ="servedMeals")
+    List<Restaurant> served;
+
+    @ManyToMany(mappedBy ="favouriteMeals")
+    List<Hunter> likes;
+
+
 }
