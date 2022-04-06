@@ -16,9 +16,11 @@ import javax.persistence.*;
 @Table(name = "user")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class User {
+
+
+
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -49,4 +51,15 @@ public class User {
     private String address;
 
     private String postcode;
+
+    public User(){
+    }
+    public User(String username,String password,Status status,Role role,String address,String postcode){
+        this.username=username;
+        this.password=password;
+        this.status=status;
+        this.role=role;
+        this.address=address;
+        this.postcode=postcode;
+    }
 }

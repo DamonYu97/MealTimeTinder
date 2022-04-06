@@ -15,9 +15,11 @@ import java.util.List;
 @Getter
 @Table(name = "restaurant")
 public class Restaurant extends User {
-    public Restaurant(){
-        super();
+    public Restaurant(){}
 
+    public Restaurant(String username,String password,Status status,Role role,String address,String postcode,String description){
+        super(username,password,status,role,address,postcode);
+        this.description=description;
     }
     private String description;
 

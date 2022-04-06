@@ -13,7 +13,9 @@ import javax.persistence.Table;
 @Getter
 @Table(name = "hunter")
 public class Hunter extends User {
-    public Hunter(){
-        super();
+    public Hunter(){}
+
+    public Hunter(String username,String password,Status status,Role role,String address,String postcode){
+        super(username,password,status,role,address,postcode);
     }
 }
