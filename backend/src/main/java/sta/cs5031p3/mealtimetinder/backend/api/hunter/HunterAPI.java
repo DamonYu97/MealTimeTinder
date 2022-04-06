@@ -44,7 +44,8 @@ public class HunterAPI {
     @Operation(summary = "Hunter Login",
             description = "Hunter submit login form to log in")
     public ResponseEntity<JWTResponse> login(@RequestBody UserLoginForm loginForm) {
-        String accessToken = userService.login(loginForm, User.Role.ADMIN, authenticationManager);;
+        String accessToken = userService.login(loginForm, User.Role.ADMIN, authenticationManager);
+        ;
         return ResponseEntity.ok(new JWTResponse(accessToken));
     }
 
@@ -72,11 +73,22 @@ public class HunterAPI {
     }
 
     @PostMapping("/getRecipesForMeal/{meal}")
-    public List <Recipe> getRecipesFromMeal(
-            @PathVariable ("meal") Meal meal
-    ){
+    public List<Recipe> getRecipesFromMeal(
+            @PathVariable("meal") Meal meal
+    ) {
         try {
             return getRecipesFromMeal(meal);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @PostMapping("/getRestaurantFromMeal/{meal}")
+    public List<Restaurant> getRestaurantFromMeal(
+            @PathVariable("meal") Meal meal
+    ){
+        try {
+            return getRestaurantFromMeal(meal);
         } catch (Exception e){
             return null;
         }

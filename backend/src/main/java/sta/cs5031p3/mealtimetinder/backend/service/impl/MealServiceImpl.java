@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sta.cs5031p3.mealtimetinder.backend.model.Meal;
 import sta.cs5031p3.mealtimetinder.backend.model.Recipe;
+import sta.cs5031p3.mealtimetinder.backend.model.Restaurant;
 import sta.cs5031p3.mealtimetinder.backend.model.User;
 import sta.cs5031p3.mealtimetinder.backend.repository.MealRepository;
 import sta.cs5031p3.mealtimetinder.backend.repository.RecipeRepository;
@@ -66,8 +67,14 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public List <Recipe> getAllRecipesForMeal(Meal meal){
-        // TO DO
+
         return meal.getRecipes();
+    }
+
+    @Override
+    public List <Restaurant> getAllRestaurantForMeal(Meal meal){
+
+        return meal.getRestaurants();
     }
 
 }
