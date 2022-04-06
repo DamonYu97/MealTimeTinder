@@ -3,7 +3,6 @@ package sta.cs5031p3.mealtimetinder.backend.filter;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,9 +28,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 public class CustomAuthorisationFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JWTProvider tokenProvider;
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (request.getServletPath().equals("/login")) {
@@ -42,10 +38,7 @@ public class CustomAuthorisationFilter extends OncePerRequestFilter {
             if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) {
                 try {
                     String token = authorisationHeader.substring("Bearer ".length());
-                    if (tokenProvider == null) {
-                        log.error("null token provider");
-                    }
-                    DecodedJWT decodedJWT = tokenProvider.getDecodeJWTFromJWT(token);
+                    DecodedJWT decodedJWT = JWTProvider.getDecodeJWTFromJWT(token);
                     String username = decodedJWT.getSubject();
                     String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
