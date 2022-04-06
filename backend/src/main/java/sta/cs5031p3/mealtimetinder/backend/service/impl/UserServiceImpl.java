@@ -8,7 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sta.cs5031p3.mealtimetinder.backend.model.Restaurant;
+import sta.cs5031p3.mealtimetinder.backend.model.Hunter;
+import sta.cs5031p3.mealtimetinder.backend.model.Meal;
 import sta.cs5031p3.mealtimetinder.backend.model.User;
 import sta.cs5031p3.mealtimetinder.backend.model.UserLoginForm;
 import sta.cs5031p3.mealtimetinder.backend.repository.UserRepository;
@@ -18,6 +19,7 @@ import sta.cs5031p3.mealtimetinder.backend.model.Meal;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -72,18 +74,4 @@ public class UserServiceImpl implements UserService {
         return userRepository.getAllByRole(role);
     }
 
-    @Override
-    public void addMealToCookbook(int mealID){
-
-    }
-
-    @Override
-    public List<Meal> getMealsForRestaurant(Restaurant restaurant){
-        return  restaurant.getMeals();
-    }
-
-    @Override
-    public void addMealToRestaurant(Restaurant restaurant, Meal meal){
-        restaurant.addMeal(meal);
-    }
 }
