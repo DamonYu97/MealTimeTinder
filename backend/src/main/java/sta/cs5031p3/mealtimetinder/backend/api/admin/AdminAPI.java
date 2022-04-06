@@ -69,16 +69,6 @@ public class AdminAPI {
     }
 
 
-    @GetMapping("/{id}/profile")
-    @Operation(security = {
-            @SecurityRequirement(name = "AdminBearerAuth")},
-            summary = "Get Admin Profile detail",
-            description = "Administrator request profile information")
-    public @ResponseBody
-    User getProfile(@PathVariable long id) {
-        return adminService.getUserById(id);
-    }
-
     @GetMapping("/profile")
     @Operation(security = {
             @SecurityRequirement(name = "AdminBearerAuth")},
