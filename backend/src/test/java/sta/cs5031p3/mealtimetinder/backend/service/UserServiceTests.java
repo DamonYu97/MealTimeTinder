@@ -48,15 +48,6 @@ public class UserServiceTests {
 
     }
 
-    @Test
-    public void recipeMustHaveMeal() {
-        List<Recipe> recipes = new ArrayList<Recipe>();
-        Meal test = new Meal(null, "Burger Test", "meals/burger.jpg", null, null);
-        recipes.add(new Recipe(null, "Vegetable Pakora", "Heat up the oil in a karahi or wok to a medium heat", false, test));
-        assertThrows(IllegalArgumentException.class, () -> recipes.add(new Recipe(null, "Vegetable Test", "Heat up the oil in a karahi or wok to a medium heat", false, null)));
-
-
-    }
 
     @Test
     public void addRepeatMealThrowExceptionTest() {
@@ -83,7 +74,7 @@ public class UserServiceTests {
                 User.Status.REGISTERED, "St Andrews", "KY16", "American Food", null));
 
         when(userRepository.getAllByRole(User.Role.ADMIN)).thenReturn(users);
-        assertEquals(userRepository.getAllByRole(User.Role.ADMIN),2);
+        assertEquals(userRepository.getAllByRole(User.Role.ADMIN).size(),2);
     }
 }
 
