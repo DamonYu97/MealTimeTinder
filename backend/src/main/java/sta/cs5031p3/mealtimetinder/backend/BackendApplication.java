@@ -3,24 +3,15 @@ package sta.cs5031p3.mealtimetinder.backend;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.security.SecuritySchemes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import sta.cs5031p3.mealtimetinder.backend.model.*;
-import sta.cs5031p3.mealtimetinder.backend.repository.MealRepository;
-import sta.cs5031p3.mealtimetinder.backend.repository.UserRepository;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 
@@ -76,7 +67,7 @@ public class BackendApplication {
                 Meal indian = new Meal(null,"Tikka Masala","meals/Tikka-masala.jpg",null,null);
                 mealService.saveMeal(indian);
                 Meal pakora = new Meal(null,"Pakora","meals/pakora.jpg",null,null);
-                mealService.saveMeal(indian);
+                mealService.saveMeal(pakora);
                 Meal fish = new Meal(null,"Fish and Chips","meals/fish.jpg",null,null);
                 mealService.saveMeal(fish);
                 Meal scampi = new Meal(null,"Scampi","meals/scampi.jpg",null,null);
@@ -109,7 +100,7 @@ public class BackendApplication {
                 users.add(conor);
 
 
-                User damon = new Admin("damon",passwordEncoder().encode("1204578614"),
+                User damon = new Admin("damon",passwordEncoder().encode("1204578616"),
                         User.Status.REGISTERED, "St Andrews","KY16");
                 users.add(damon);
 
@@ -139,7 +130,7 @@ public class BackendApplication {
                 users.add(new Restaurant("Tulsi",passwordEncoder().encode("1204578610"),
                         User.Status.REGISTERED,"St Andrews","G64 124","Indian Food",c));
 
-                users.add(new Hunter("Damon",passwordEncoder().encode("1204578609"),
+                users.add(new Hunter("Damon",passwordEncoder().encode("12345678"),
                         User.Status.REGISTERED,"St Andrews","G64 125"));
 
                 users.add(new Hunter("Michael",passwordEncoder().encode("1204578608"),

@@ -1,6 +1,7 @@
 package sta.cs5031p3.mealtimetinder.backend.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
@@ -19,11 +20,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Restaurant extends User {
 
-    public Restaurant(String username,String password,Status status,Role role,String address,String postcode,String description,List<Meal> meals){
+    public Restaurant(String username,String password,Status status,String address,String postcode,String description,List<Meal> meals){
         super(null, username, password, status,Role.RESTAURANT, address, postcode);
         this.description = description;
         this.meals = meals;
     }
+
     private String description;
 
     public void addMeal(Meal meal){
