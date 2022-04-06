@@ -23,9 +23,6 @@ public class UserServiceTests {
     @Mock
     private UserRepository userRepository;
 
-    @Mock
-    private MealRepository mealRepository;
-
     @InjectMocks
     private UserService userService = new UserServiceImpl();
 
@@ -47,21 +44,6 @@ public class UserServiceTests {
         assertEquals(2, userRepository.findAll().size());
 
     }
-
-
-    @Test
-    public void addRepeatMealThrowExceptionTest() {
-        List<Meal> meals = new ArrayList<>();
-        Meal test = new Meal(null, "Burger Test", "meals/burger.jpg", null, null);
-        Meal test2 = new Meal(null, "Burger Test", "meals/burger.jpg", null, null);
-        meals.add(test);
-
-        assertThrows(IllegalArgumentException.class, () -> meals.add(test2));
-        //assertThrows(, meals.add(test));
-        when(mealRepository.findAll()).thenReturn(meals);
-        assertEquals(1, mealRepository.findAll().size());
-    }
-
 
     @Test
     public void getAllAdminUserTest2() {

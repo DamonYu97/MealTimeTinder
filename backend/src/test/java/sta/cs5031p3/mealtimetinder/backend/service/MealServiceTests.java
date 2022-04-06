@@ -40,11 +40,22 @@ public class MealServiceTests {
     public void recipeMustHaveMeal() {
 
         Meal test = new Meal(null, "Burger Test", "meals/burger.jpg", null, null);
-        Recipe testrecipe = new Recipe(null, "Vegetable Pakora", "Heat up the oil in a karahi or wok to a medium heat", false, null);
+        //Meal hasnt been added to mealRepo
+        Recipe testrecipe = new Recipe(null, "Vegetable Pakora", "Heat up the oil in a karahi or wok to a medium heat", false, test);
 
         assertThrows(IllegalArgumentException.class, () -> mealService.saveRecipe(testrecipe));
-
     }
 
+    @Test
+    public void addRepeatMealThrowExceptionTest() {
+
+        Meal test = new Meal(null, "Burger Test", "meals/burger.jpg", null, null);
+        Meal test2 = new Meal(null, "Burger Test", "meals/burger.jpg", null, null);
+
+        mealService.saveMeal(test);
+
+        assertThrows(IllegalArgumentException.class, () -> mealService.saveMeal(test2));
+
+    }
 
 }
