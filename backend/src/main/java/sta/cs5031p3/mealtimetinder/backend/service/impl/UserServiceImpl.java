@@ -81,4 +81,9 @@ public class UserServiceImpl implements UserService {
     public List<Meal> getMealsForRestaurant(Restaurant restaurant){
         return  restaurant.getMeals();
     }
+
+    @Override
+    public void addMealToRestaurant(Restaurant restaurant, Meal meal){
+        restaurant.addMeal(meal);
+    }
 }

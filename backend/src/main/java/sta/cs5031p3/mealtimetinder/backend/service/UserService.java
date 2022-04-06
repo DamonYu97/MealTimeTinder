@@ -34,4 +34,6 @@ public interface UserService {
     void addMealToCookbook(int mealID);
 
     List <Meal> getMealsForRestaurant(Restaurant restaurant);
+
+    void addMealToRestaurant(Restaurant restaurant, Meal meal);
  }

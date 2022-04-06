@@ -50,9 +50,17 @@ public class RestaurantAPI {
         return null;
     }
 
-    public boolean addRestaurantToMeal(long meal_id) {
-        //restaurant id
-        return false;
+    @PostMapping("/addMealToRestaurant/{restaurant}/{meal}")
+    public boolean addRestaurantToMeal(
+            @PathVariable ("restaurant") Restaurant restaurant,
+            @PathVariable ("meal") Meal meal
+    ) {
+        try {
+            addRestaurantToMeal(restaurant, meal);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 
     public boolean removeRestaurantToMeal(long meal_id) {
