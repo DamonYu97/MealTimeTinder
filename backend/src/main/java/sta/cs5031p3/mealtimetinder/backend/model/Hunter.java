@@ -34,7 +34,7 @@ public class Hunter extends User {
             inverseJoinColumns = @JoinColumn(name = "meal_id"))
     private List<Meal> favouriteMeals;
 
-    public void addFavouriteMeal(Meal meal){
+    public void addFavouritedMeal(Meal meal){
         favouriteMeals.add(meal);
     }
 

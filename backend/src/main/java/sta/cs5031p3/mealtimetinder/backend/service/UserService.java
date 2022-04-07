@@ -29,6 +29,7 @@ public interface UserService {
 
     User getRegisteredAdminByUsername(String username);
 
-    List<User> getAllByRole(User.Role role);
+    List<Meal> getFavourites(Hunter user);
 
+    void addToFavourites(Hunter hunter,Meal meal);
  }

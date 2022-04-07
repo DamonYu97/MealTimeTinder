@@ -85,14 +85,17 @@ public class AdminAPI {
     }
 
     @PostMapping(value = "/meal/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(security = {
+            @SecurityRequirement(name = "AdminBearerAuth")
+    })
     public String uploadImage(@RequestBody MultipartFile multipartFile) throws IOException {
         return fileService.upload(multipartFile, "meals");
     }
 
-
-
-
     @PostMapping("/addMeal/{image_path}/{name}")
+    @Operation(security = {
+            @SecurityRequirement(name = "AdminBearerAuth")
+    })
     public boolean addMeal(
             @PathVariable String image_path,
             @PathVariable String name
