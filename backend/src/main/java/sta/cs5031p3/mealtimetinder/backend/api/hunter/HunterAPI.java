@@ -84,12 +84,14 @@ public class HunterAPI {
         }
     }
 
-    @PostMapping("/getRestaurantFromMeal/{meal}")
+    @PostMapping("/getRestaurantsFromMeal/{id}")
     public List<Restaurant> getRestaurantFromMeal(
-            @PathVariable("meal") Meal meal
+            @PathVariable("id") Long id
     ){
         try {
-            return getRestaurantFromMeal(meal);
+            Meal meal = mealService.getMealById(id);
+
+            return mealService.getAllRestaurantForMeal(meal);
         } catch (Exception e){
             return null;
         }

@@ -25,6 +25,8 @@ public interface MealService {
 
     Recipe saveRecipe(Recipe recipe);
 
+    Meal getMealById(Long id);
+
     Meal addRecipeToMeal(Meal meal,Recipe recipe);
 
     List<Recipe> getAllRecipesForMeal(Meal meal);
