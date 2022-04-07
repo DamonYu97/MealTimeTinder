@@ -61,6 +61,20 @@ public class AdminAPI {
         }
     }
 
+    @PostMapping("/register")
+    @Operation(security = {
+            @SecurityRequirement(name = "AdminBearerAuth")
+    })
+    public boolean addAccount(@RequestBody AdminCreation creation) {
+        try {
+            userService.saveUser(new Admin(creation.getUsername(), creation.getPassword(), User.Status.REGISTERED
+                    , creation.getAddress(), creation.getPostcode()));
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
     @GetMapping("/allUsers")
     @Operation(security = {
           @SecurityRequirement(name = "AdminBearerAuth")
