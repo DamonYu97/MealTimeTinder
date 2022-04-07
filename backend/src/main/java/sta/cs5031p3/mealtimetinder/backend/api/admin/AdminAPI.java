@@ -8,12 +8,15 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import sta.cs5031p3.mealtimetinder.backend.model.*;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
@@ -50,8 +53,12 @@ public class AdminAPI {
     @Operation(summary = "Admin Login",
             description = "Administrator submit login form to log into Admin Interface")
     public ResponseEntity<JWTResponse> login(@RequestBody UserLoginForm loginForm) {
-        String accessToken = userService.login(loginForm, User.Role.ADMIN, authenticationManager);
-        return ResponseEntity.ok(new JWTResponse(accessToken));
+        try {
+            String accessToken = userService.login(loginForm, User.Role.ADMIN, authenticationManager);
+            return ResponseEntity.ok(new JWTResponse(accessToken));
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+        }
     }
 
     @GetMapping("/allUsers")
@@ -77,16 +84,24 @@ public class AdminAPI {
             description = "Administrator request profile information")
     public @ResponseBody
     User getProfile() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userService.getRegisteredAdminByUsername(username);
+        try {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            return userService.getRegisteredAdminByUsername(username);
+        } catch (Exception e) {
+            throw  new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @PostMapping(value = "/meal/uploadMealImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(security = {
             @SecurityRequirement(name = "AdminBearerAuth")
     })
-    public String uploadImage(@ModelAttribute MultipartFile image) throws IOException {
-        return fileService.upload(image, "meals");
+    public String uploadImage(@ModelAttribute MultipartFile image) {
+        try {
+            return fileService.upload(image, "meals");
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @PostMapping("/AddRecipeForMeal")
