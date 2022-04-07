@@ -39,7 +39,7 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public Meal saveMeal(Meal meal) {
-        if (meal == null) {
+        if (meal == null || meal.getName() == null) {
             throw new IllegalArgumentException("Can't save an empty meal");
         }
         // Optional<Meal> existingMeal = userRepository.findMealByName
@@ -70,7 +70,15 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public Recipe saveRecipe(Recipe recipe){
-        //
+        //validate recipe
+        if (recipe == null || recipe.getName() == null) {
+            throw new IllegalArgumentException("Can't save an empty meal");
+        }
+
+        //check if the meal exists
+        if (mealRepository.findById(recipe.getMeal().getId()).isEmpty()) {
+            throw new IllegalArgumentException("No such meal to add");
+        }
         return recipeRepository.save(recipe);
     }
 

@@ -30,9 +30,14 @@ public class MealServiceTests {
     @InjectMocks
     private MealService mealService = new MealServiceImpl();
 
+    @Mock
+    private ImageFileService imageFileService;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
+        when(imageFileService.validateImagePath(ImageFileService.DEFAULT_MEAL_PATH)).thenReturn(true);
+        when(imageFileService.validateImagePath("/meals/burger.jpg")).thenReturn(true);
     }
 
 
@@ -80,8 +85,10 @@ public class MealServiceTests {
         assertThrows(IllegalArgumentException.class, () -> mealService.saveMeal(test));
     }
 
+
     @Test
     public void addNewMealWithoutImagePathWillGetDefaultPathTest() {
+        //Fixed, but Junit will not recognise @Value from Spring
         //add test meal
         Meal test = new Meal(null, "test" , null, null, null, null);
         //mock
@@ -108,7 +115,7 @@ public class MealServiceTests {
         Meal testMeal = new Meal((long)1, "testmeal", "meals/burger.jpg", null, null, null);
         Recipe recipe = new Recipe(null, "Vegetable Pakora", "Heat up the oil in a karahi or wok to a medium heat", false, testMeal);
         //mock repositories
-        when(mealRepository.findMealByName("testmeal")).thenReturn(Optional.of(testMeal));
+        when(mealRepository.findById(testMeal.getId())).thenReturn(Optional.of(testMeal));
         when(recipeRepository.save(recipe)).thenReturn(recipe);
         //test
         Recipe savedRecipe = mealService.saveRecipe(recipe);
@@ -120,7 +127,7 @@ public class MealServiceTests {
         Meal testMeal = new Meal((long)1, "testmeal", "meals/burger.jpg", null, null, null);
         Recipe recipe = new Recipe(null, "Vegetable Pakora", "Heat up the oil in a karahi or wok to a medium heat", false, testMeal);
         //mock repositories
-        when(mealRepository.findMealByName("testmeal")).thenReturn(Optional.empty());
+        when(mealRepository.findById(testMeal.getId())).thenReturn(Optional.empty());
         //test
         assertThrows(IllegalArgumentException.class, () -> mealService.saveRecipe(recipe));
     }
@@ -139,6 +146,8 @@ public class MealServiceTests {
         when(recipeRepository.save(recipe)).thenReturn(recipe);
         when(recipeRepository.save(recipe2)).thenReturn(recipe2);
         //test
+        mealService.saveRecipe(recipe);
+        mealService.saveRecipe(recipe2);
         assertEquals(2, mealService.getMealById(testMeal.getId()).getRecipes().size());
     }
 
