@@ -6,6 +6,7 @@ import sta.cs5031p3.mealtimetinder.backend.model.Meal;
 import sta.cs5031p3.mealtimetinder.backend.model.Recipe;
 import sta.cs5031p3.mealtimetinder.backend.model.User;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -17,6 +18,9 @@ import java.util.Optional;
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     Optional<Recipe> findRecipeByName(String name);
+
+    List<Recipe> findByMeal(Meal meal);
+
 
     // Optional<Meal> findMealbyName()
 }

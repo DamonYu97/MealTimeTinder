@@ -42,6 +42,8 @@ public class MealServiceImpl implements MealService {
         return mealRepository.findAll(PageRequest.of(pageNum, 5)).toList();
     }
 
+
+
     public Meal saveMeal(Meal meal) {
         // Optional<Meal> existingMeal = userRepository.findMealByName
         Optional<Meal> existingMeal = mealRepository.findMealByName(meal.getName());
@@ -54,53 +56,35 @@ public class MealServiceImpl implements MealService {
     }
 
     public Recipe saveRecipe(Recipe recipe){
-
-        String recipeMealName = recipe.getMeal().getName();
-
-        Optional<Meal> existingMeal = mealRepository.findMealByName(recipeMealName);
-
-        if(!existingMeal.isPresent()){
-            throw new IllegalArgumentException("Recipe Must have a valid meal");
-        }
-
+        //
         return recipeRepository.save(recipe);
     }
 
 
-
-
-    @Override
-    public Meal addRecipeToMeal(Meal meal,Recipe recipe){
-        List<Recipe> currentRecipes = meal.getRecipes();
-        currentRecipes.add(recipe);
-        meal.setRecipes(currentRecipes);
-
-        return mealRepository.save(meal);
-    }
-
     @Override
     public List<Recipe> getAllRecipesForMeal(Meal meal) {
-        return null;
+        return recipeRepository.findByMeal(meal);
     }
 
     @Override
     public List<Restaurant> getAllRestaurantForMeal(Meal meal) {
-        return null;
+        return meal.getRestaurants();
     }
 
+    @Override
     public Meal getMealById(Long id){
-        Optional<Meal> meal =mealRepository.getMealById(id);
 
-        if(!meal.isPresent()){
-            throw new IllegalArgumentException("Meal does not exist");
-        }
+        return mealRepository.findById(id).orElseThrow();
+    }
 
-        return mealRepository.getMealById(id).orElseThrow();
+    @Override
+    public List<Meal> getAllMeals(){
+        return mealRepository.findAll();
     }
 
     @Override
     public List<Meal> getMealsForRestaurant(Restaurant restaurant) {
-        return null;
+        return restaurant.getServedMeals();
     }
 
     @Override

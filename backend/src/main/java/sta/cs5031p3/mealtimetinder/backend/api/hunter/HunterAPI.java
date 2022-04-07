@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import sta.cs5031p3.mealtimetinder.backend.model.*;
+import sta.cs5031p3.mealtimetinder.backend.repository.UserRepository;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
 import java.util.List;
@@ -34,6 +35,9 @@ public class HunterAPI {
     @Qualifier("hunterAuthManager")
     @Autowired
     AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -67,29 +71,68 @@ public class HunterAPI {
         return mealService.getRandom5Meals();
     }
 
-   /* public Cookbook getCookbook() {
-        //get user info
-        //validate
-        return null;
-    }*/
-
-    @PostMapping("/getRecipesForMeal/{meal}")
+    @PostMapping("/getRecipesForMeal/{id}")
+    @Operation(security = {
+            @SecurityRequirement(name = "HunterBearerAuth")
+    })
     public List<Recipe> getRecipesFromMeal(
-            @PathVariable("meal") Meal meal
+            @PathVariable("id") long id
     ) {
         try {
-            return getRecipesFromMeal(meal);
+            Meal meal = mealService.getMealById(id);
+            return mealService.getAllRecipesForMeal(meal);
         } catch (Exception e) {
             return null;
         }
     }
 
-    @PostMapping("/getRestaurantFromMeal/{meal}")
+
+    //@PostMapping("/AddRecipeForMeal/{id}/{description}/{is_default}/{name}")
+    @PostMapping("/AddRecipeForMeal/{id}/{description}/{name}")
+    @Operation(security = {
+            @SecurityRequirement(name = "HunterBearerAuth")
+    })
+    public void addRecipeForMeal(
+            @PathVariable("id") long id,
+            @PathVariable("description") String description,
+            @PathVariable("name") String name
+            //@PathVariable("is_default") Boolean defaulted,
+            //@PathVariable("name") String name
+
+    ) {
+        try {
+            Meal meal = mealService.getMealById(id);
+            //mealService.saveRecipe(new Recipe(null,name,description,defaulted,meal));
+            mealService.saveRecipe(new Recipe(null,name,description,false,meal));
+        } catch (Exception e) {
+
+        }
+    }
+
+    @PostMapping("/getSpecificMeal/{id}")
+    @Operation(security = {
+            @SecurityRequirement(name = "HunterBearerAuth")
+    })
+    public Meal getMeal(
+            @PathVariable("id") long id
+    ) {
+        try {
+            return mealService.getMealById(id);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @PostMapping("/getRestaurantsForMeal/{id}")
+    @Operation(security = {
+            @SecurityRequirement(name = "HunterBearerAuth")
+    })
     public List<Restaurant> getRestaurantFromMeal(
-            @PathVariable("meal") Meal meal
+            @PathVariable("id") long id
     ){
         try {
-            return getRestaurantFromMeal(meal);
+            Meal meal = mealService.getMealById(id);
+            return mealService.getAllRestaurantForMeal(meal);
         } catch (Exception e){
             return null;
         }
@@ -101,23 +144,64 @@ public class HunterAPI {
             @PathVariable String username
     ) {
         try {
-            userService.saveUser(new User(null, username, password, User.Status.REGISTERED, User.Role.HUNTER, null, null));
+            userRepository.save(new User(null, username, password, User.Status.REGISTERED, User.Role.HUNTER, null, null));
             return true;
         } catch (Exception e){
             return false;
         }
     }
 
-    @PostMapping("/addMealToCookbook/{mealID}")
-    public boolean removeMealFromCookbook(
-            @PathVariable ("mealID") int mealID
+    @PostMapping("/viewFavourites")
+    @Operation(security = {
+            @SecurityRequirement(name = "HunterBearerAuth")
+    })
+    public List<Meal> viewFavourites() {
+        try {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            Hunter h = (Hunter) userService.getRegisteredHunterByUsername(username);
+            return userService.getFavourites(h);
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    @PostMapping("/addToFavourites/{mealId}")
+    @Operation(security = {
+            @SecurityRequirement(name = "HunterBearerAuth")
+    })
+    public Boolean addToFavourites(
+            @PathVariable ("mealId") long mealId
     ) {
         try {
-            removeMealFromCookbook(mealID);
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            Hunter h = (Hunter) userService.getRegisteredHunterByUsername(username);
+
+            Meal m = mealService.getMealById(mealId);
+            userService.addToFavourites(h,m);
             return true;
         } catch (Exception e){
             return false;
         }
     }
+
+    @PostMapping("/removeFromFavourites/{mealId}")
+    @Operation(security = {
+            @SecurityRequirement(name = "HunterBearerAuth")
+    })
+    public Boolean removeFromFavourites(
+            @PathVariable ("mealId") long mealId
+    ) {
+        try {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            Hunter h = (Hunter) userService.getRegisteredHunterByUsername(username);
+
+            Meal m = mealService.getMealById(mealId);
+            userService.removeFromFavourites(h,m);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
 
 }
