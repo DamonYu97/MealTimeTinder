@@ -24,16 +24,6 @@ public class MealServiceImpl implements MealService {
     private RecipeRepository recipeRepository;
 
     @Override
-    public Meal getRandomMeal() {
-        return null;
-    }
-
-    @Override
-    public Meal getSpecificMeal(String mealName) {
-        return null;
-    }
-
-    @Override
     public List<Meal> getRandom5Meals() {
         //Get a random page number
         int totalPage = (int) (mealRepository.count() / 5);
@@ -44,6 +34,7 @@ public class MealServiceImpl implements MealService {
 
 
 
+    @Override
     public Meal saveMeal(Meal meal) {
         // Optional<Meal> existingMeal = userRepository.findMealByName
         Optional<Meal> existingMeal = mealRepository.findMealByName(meal.getName());
@@ -65,6 +56,7 @@ public class MealServiceImpl implements MealService {
         return savedMeal;
     }
 
+    @Override
     public Recipe saveRecipe(Recipe recipe){
         //
         return recipeRepository.save(recipe);
