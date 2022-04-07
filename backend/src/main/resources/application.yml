@@ -10,4 +10,4 @@ spring:
             ddl-auto: update
     web:
         resources:
-            static-locations: file:<project-path>/images/
+            static-locations: file:/Users/damonyu/Documents/onedrive files/OneDrive - University of St Andrews/St Andrews/Moodle/CS5031/P3/MealTimeTinder/images/
