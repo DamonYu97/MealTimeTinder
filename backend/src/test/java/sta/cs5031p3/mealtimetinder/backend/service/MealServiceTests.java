@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 public class MealServiceTests {
@@ -37,34 +36,102 @@ public class MealServiceTests {
         MockitoAnnotations.openMocks(this);
     }
 
+
     @Test
-    public void addMeal() {
-        List<Meal> meals = new ArrayList<>();
-        Meal test = new Meal(null, "testmeal", "meals/burger.jpg", null, null);
-        meals.add(test);
-        mealService.saveMeal(test);
-        //Meal hasnt been added to mealRepo
-        when(mealRepository.findAll()).thenReturn(meals);
-        assertEquals(mealRepository.findAll().size(),1);
+    public void addMealWithoutRecipesTest() {
+        //add test meal
+        Meal test = new Meal(null, "testmeal", null, null, null, null);
+        //mock repositories
+        when(mealRepository.findMealByName("testmeal")).thenReturn(Optional.empty());
+        when(mealRepository.save(test)).thenReturn(test);
+        //test the service
+        Meal meal = mealService.saveMeal(test);
+        assertEquals(test.getName(), meal.getName());
+        assertNull(meal.getRecipes());
     }
 
     @Test
-    public void addRecipe() {
+    public void addNewMealWithValidImagePathAndNameRecipesTest() {
+        //add test recipes
+        List<Recipe> recipes = new ArrayList<>();
+        Recipe r1 = new Recipe(null, "r1", "ds", true, null);
+        recipes.add(r1);
+        Recipe r2 = new Recipe(null, "r2", "ds", false, null);
+        recipes.add(r2);
+        //add test meal
+        Meal test = new Meal(null, "testmeal", "meals/burger.jpg", recipes, null, null);
+        //mock repositories
+        when(mealRepository.findMealByName("testmeal")).thenReturn(Optional.empty());
+        when(mealRepository.save(test)).thenReturn(test);
+        when(recipeRepository.saveAll(recipes)).thenReturn(recipes);
+        //test the service
+        mealService.saveMeal(test);
+        Meal meal = mealService.saveMeal(test);
+        assertEquals(test.getName(), meal.getName());
+        assertEquals(test.getImagePath(), meal.getImagePath());
+        assertEquals(r1, meal.getRecipes().get(0));
+        assertEquals(meal.getRecipes().get(0).getMeal(), meal);
+    }
 
-        Meal testmeal = new Meal(null, "testmeal", "meals/burger.jpg", null, null);
-        mealRepository.save(testmeal);
-        //Meal hasnt been added to mealRepo
-        List<Recipe> recipes = new ArrayList<Recipe>();
-        recipes.add(new Recipe(null, "Vegetable Pakora", "Heat up the oil in a karahi or wok to a medium heat", false, testmeal));
+    @Test
+    public void addNewMealWithoutNameThrowExceptionTest() {
+        //add test meal
+        Meal test = new Meal(null, null , "meals/burger.jpg", null, null, null);
+        //test the service
+        mealService.saveMeal(test);
+        assertThrows(IllegalArgumentException.class, () -> mealService.saveMeal(test));
+    }
 
-        when(recipeRepository.findAll()).thenReturn(recipes);
-        assertEquals(recipeRepository.findAll().size(),1);
+    @Test
+    public void addNewMealWithoutImagePathWillGetDefaultPathTest() {
+        //add test meal
+        Meal test = new Meal(null, "test" , null, null, null, null);
+        //mock
+        when(mealRepository.findMealByName("test")).thenReturn(Optional.empty());
+        when(mealRepository.save(test)).thenReturn(test);
+        //test the service
+        Meal meal = mealService.saveMeal(test);
+        assertEquals(test.getName(), meal.getName());
+        assertEquals("/meals/default.jpg", meal.getImagePath());
+    }
+
+    @Test
+    public void addMealWithInValidImagePathThrowExceptionTest() {
+        //add test meal
+        Meal test = new Meal(null, "testmeal", "wrongPath", null, null, null);
+        //mock repositories
+        when(mealRepository.findMealByName("testmeal")).thenReturn(Optional.empty());
+        //test the service
+        mealService.saveMeal(test);
+        assertThrows(IllegalArgumentException.class, () -> mealService.saveMeal(test));
+    }
+
+    @Test
+    public void addOneRecipeToExistingMealTest() {
+        Meal testMeal = new Meal((long)1, "testmeal", "meals/burger.jpg", null, null, null);
+        Recipe recipe = new Recipe(null, "Vegetable Pakora", "Heat up the oil in a karahi or wok to a medium heat", false, testMeal);
+        //mock repositories
+        when(mealRepository.findMealByName("testmeal")).thenReturn(Optional.of(testMeal));
+        when(recipeRepository.save(recipe)).thenReturn(recipe);
+        //test
+        Recipe savedRecipe = mealService.saveRecipe(recipe);
+       assertEquals(savedRecipe.getMeal(), testMeal);
+    }
+
+    @Test
+    public void addOneRecipeToNonExistingMealTest() {
+        Meal testMeal = new Meal((long)1, "testmeal", "meals/burger.jpg", null, null, null);
+        Recipe recipe = new Recipe(null, "Vegetable Pakora", "Heat up the oil in a karahi or wok to a medium heat", false, testMeal);
+        //mock repositories
+        when(mealRepository.findMealByName("testmeal")).thenReturn(Optional.empty());
+        //test
+        assertThrows(IllegalArgumentException.class, () -> mealService.saveRecipe(recipe));
     }
 
     @Test
     public void recipeMustHaveMeal() {
 
-        Meal test = new Meal(null, "Burger Test", "meals/burger.jpg", null, null);
+        Meal test = new Meal(null, "Burger Test", "meals/burger.jpg", null, null, null);
 
         //Meal hasnt been added to mealRepo
         Recipe testrecipe = new Recipe(null, "Vegetable Pakora", "Heat up the oil in a karahi or wok to a medium heat", false, test);
@@ -75,7 +142,7 @@ public class MealServiceTests {
     @Test
     public void mealCanHaveMultipleRecipe() {
 
-        Meal test = new Meal(null, "Burger Test 2", "meals/burger.jpg", null, null);
+        Meal test = new Meal(null, "Burger Test 2", "meals/burger.jpg", null, null, null);
 
         mealService.saveMeal(test);
         //Meal hasnt been added to mealRepo
@@ -93,13 +160,12 @@ public class MealServiceTests {
     @Test
     public void addRepeatMealThrowExceptionTest() {
 
-        Meal test = new Meal(null, "Burger Test", "meals/burger.jpg", null, null);
-        Meal test2 = new Meal(null, "Burger Test", "meals/burger.jpg", null, null);
+        Meal test = new Meal(null, "Burger Test", "meals/burger.jpg", null, null, null);
+        Meal test2 = new Meal(null, "Burger Test", "meals/burger.jpg", null, null, null);
         mealService.saveMeal(test);
         when(mealRepository.findMealByName(test.getName())).thenReturn(Optional.of(test));
         when(mealRepository.save(test2)).thenReturn(test2);
         assertThrows(IllegalArgumentException.class, () -> mealService.saveMeal(test2));
-
     }
 
 }
