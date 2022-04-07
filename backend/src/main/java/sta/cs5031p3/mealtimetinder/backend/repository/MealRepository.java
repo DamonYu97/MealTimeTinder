@@ -1,6 +1,7 @@
 package sta.cs5031p3.mealtimetinder.backend.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import sta.cs5031p3.mealtimetinder.backend.model.Meal;
 
 import java.util.Optional;
@@ -15,7 +16,8 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
 
     Optional<Meal> findMealByName(String name);
 
-    Optional<Meal> getMealById(Long id);
+    @Override
+    Optional<Meal> findById(Long aLong);
 
     // Optional<Meal> findMealbyName()
 }

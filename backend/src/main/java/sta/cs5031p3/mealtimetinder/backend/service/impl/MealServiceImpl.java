@@ -69,8 +69,6 @@ public class MealServiceImpl implements MealService {
     }
 
 
-
-
     @Override
     public Meal addRecipeToMeal(Meal meal,Recipe recipe){
         List<Recipe> currentRecipes = meal.getRecipes();
@@ -82,7 +80,7 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public List<Recipe> getAllRecipesForMeal(Meal meal) {
-        return null;
+        return recipeRepository.findByMeal(meal);
     }
 
     @Override
@@ -90,14 +88,15 @@ public class MealServiceImpl implements MealService {
         return null;
     }
 
+    @Override
     public Meal getMealById(Long id){
-        Optional<Meal> meal =mealRepository.getMealById(id);
 
-        if(!meal.isPresent()){
-            throw new IllegalArgumentException("Meal does not exist");
-        }
+        return mealRepository.findById(id).orElseThrow();
+    }
 
-        return mealRepository.getMealById(id).orElseThrow();
+    @Override
+    public List<Meal> getAllMeals(){
+        return mealRepository.findAll();
     }
 
     @Override

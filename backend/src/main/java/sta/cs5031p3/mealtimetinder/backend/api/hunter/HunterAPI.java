@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import sta.cs5031p3.mealtimetinder.backend.model.*;
+import sta.cs5031p3.mealtimetinder.backend.repository.UserRepository;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
 import java.util.List;
@@ -34,6 +35,9 @@ public class HunterAPI {
     @Qualifier("hunterAuthManager")
     @Autowired
     AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -67,18 +71,24 @@ public class HunterAPI {
         return mealService.getRandom5Meals();
     }
 
-   /* public Cookbook getCookbook() {
-        //get user info
-        //validate
-        return null;
-    }*/
-
-    @PostMapping("/getRecipesForMeal/{meal}")
+    @PostMapping("/getRecipesForMeal/{id}")
     public List<Recipe> getRecipesFromMeal(
-            @PathVariable("meal") Meal meal
+            @PathVariable("id") long id
     ) {
         try {
-            return getRecipesFromMeal(meal);
+            Meal meal = mealService.getMealById(id);
+            return mealService.getAllRecipesForMeal(meal);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @PostMapping("/getSpecificMeal/{id}")
+    public Meal getMeal(
+            @PathVariable("id") long id
+    ) {
+        try {
+            return mealService.getMealById(id);
         } catch (Exception e) {
             return null;
         }
@@ -86,7 +96,7 @@ public class HunterAPI {
 
     @PostMapping("/getRestaurantsFromMeal/{id}")
     public List<Restaurant> getRestaurantFromMeal(
-            @PathVariable("id") Long id
+            @PathVariable("id") long id
     ){
         try {
             Meal meal = mealService.getMealById(id);
@@ -103,7 +113,7 @@ public class HunterAPI {
             @PathVariable String username
     ) {
         try {
-            userService.saveUser(new User(null, username, password, User.Status.REGISTERED, User.Role.HUNTER, null, null));
+            userRepository.save(new User(null, username, password, User.Status.REGISTERED, User.Role.HUNTER, null, null));
             return true;
         } catch (Exception e){
             return false;
