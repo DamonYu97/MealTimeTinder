@@ -2,6 +2,7 @@ package sta.cs5031p3.mealtimetinder.backend.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -13,10 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import sta.cs5031p3.mealtimetinder.backend.filter.CustomAuthorisationFilter;
 import sta.cs5031p3.mealtimetinder.backend.service.impl.AdminDetailServiceImpl;
 
@@ -33,6 +31,9 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
     private final AdminDetailServiceImpl userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private CorsConfigurationSource corsConfigurationSource;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
@@ -46,7 +47,7 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors();
+        http.cors().configurationSource(corsConfigurationSource);
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/admin/login/**","/admin/addMeal/**").permitAll();

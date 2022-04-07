@@ -46,7 +46,7 @@ public class HunterSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors();
+        http.cors().configurationSource(corsConfigurationSource());
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.requestMatchers().and().authorizeRequests().antMatchers("/hunter/login/**", "/hunter/meals","/hunter/register/**").permitAll();
