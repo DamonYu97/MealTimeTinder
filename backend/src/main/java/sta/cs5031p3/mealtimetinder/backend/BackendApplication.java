@@ -62,25 +62,37 @@ public class BackendApplication {
             try {
 
                 Meal burger = new Meal(null,"Burger","meals/burger.jpg",null,null,null);
-                mealService.saveMeal(burger);
+
+
                 Meal chicken = new Meal(null,"Grilled Chicken","meals/chicken.jpg",null,null,null);
                 mealService.saveMeal(chicken);
+
                 List<Meal> meals = Arrays.asList(burger,chicken);
 
+                Recipe recipe = new Recipe(null,"Cheeseburger recipe","Bacon, Meat, Beef,Tomato, Cheese",false,burger);
+
+
+                //Recipe recipetest = new Recipe(null,"testburger recipe","Bacon, Meat, Beef,Tomato, Cheese",false,burger);
+
+                //burger.addRecipe(recipetest);
                 mealService.saveMeal(burger);
-                mealService.saveMeal(chicken);
+                //mealService.saveMeal(burger);
+                //mealService.saveMeal(chicken);
+                mealService.saveRecipe(recipe);
 
                 Hunter conor = new Hunter("Conor test",passwordEncoder().encode("1204578606"),
                         User.Status.REGISTERED, "St Andrews","G64 128",meals);
                 Hunter damon = new Hunter("Damon test",passwordEncoder().encode("1204578606"),
                         User.Status.REGISTERED, "St Andrews","G64 128",meals);
+                User admin = new Admin("admin",passwordEncoder().encode("1204578615"),
+                        User.Status.REGISTERED, "St Andrews","KY16");
 
                 Restaurant paesano = new Restaurant("Paesano",passwordEncoder().encode("1204578611"),
                         User.Status.PENDING,"Glasgow","G64 123","Italian Food",meals);
 
 
                 List<Hunter> hunters = Arrays.asList(conor,damon);
-
+                userService.saveUser(admin);
                 userService.saveUser(conor);
                 userService.saveUser(damon);
                 userService.saveUser(paesano);
