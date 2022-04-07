@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -48,27 +49,71 @@ public class RestaurantAPI {
         String accessToken = userService.login(loginForm, User.Role.ADMIN, authenticationManager);
         return ResponseEntity.ok(new JWTResponse(accessToken));
     }
-
+    // This is now redundant?
     public List<Meal> searchMeal(String mealName) {
         return null;
     }
 
+    @GetMapping("/allMeals")
+    @Operation(security = {
+                @SecurityRequirement(name = "RestaurantBearerAuth")
+    })
+    public ResponseEntity<Iterable<Meal>> getAllMeals() {
+        return ResponseEntity.ok().body(mealService.getAllMeals());
+    }
+
+
     @PostMapping("/addMealToRestaurant/{restaurant}/{meal}")
-    public boolean addRestaurantToMeal(
+    public boolean addMealToRestaurant(
             @PathVariable ("restaurant") Restaurant restaurant,
             @PathVariable ("meal") Meal meal
     ) {
         try {
-            addRestaurantToMeal(restaurant, meal);
+            mealService.addMealToRestaurantImpl(restaurant, meal);
+            return true;
+
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    @PostMapping ("/removeMealFromRestaurant/{restaurant}/{meal}")
+    public boolean  removeMealFromRestaurant(
+            @PathVariable ("restaurant") Restaurant restaurant,
+            @PathVariable ("meal") Meal meal
+    ){
+        try {
+            mealService.removeMealFromRestaurantImpl(restaurant, meal);
             return true;
         } catch (Exception e){
             return false;
         }
     }
 
-    public boolean removeRestaurantToMeal(long meal_id) {
-        //restaurant id
-        return false;
+    @PostMapping("/addRestaurantToMeal/{restaurant}/{meal}")
+    public boolean addRestaurantToMeal(
+            @PathVariable ("restaurant") Restaurant restaurant,
+            @PathVariable ("meal") Meal meal
+    ) {
+        try {
+            mealService.addRestaurantToMealImpl(restaurant, meal);
+            return true;
+        } catch(Exception e){
+            return false;
+        }
+    }
+
+    @PostMapping ("/removeRestaurantFromMeal/{restaurant}/{meal}")
+    public boolean removeRestaurantToMeal(
+            @PathVariable ("restaurant") Restaurant restaurant,
+            @PathVariable ("meal") Meal meal
+    ) {
+        try{
+            mealService.removeRestaurantFromMealImpl(restaurant, meal);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @PostMapping("/getRestaurantMeals/{restaurant}")
@@ -89,8 +134,7 @@ public class RestaurantAPI {
     ){
 
         try {
-            Meal meal = getSpecificMeal(meaName);
-            return meal;
+            return mealService.getSpecificMeal(meaName);
         } catch(Exception e){
             return null;
         }
