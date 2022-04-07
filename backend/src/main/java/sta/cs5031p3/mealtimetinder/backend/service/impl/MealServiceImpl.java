@@ -51,9 +51,9 @@ public class MealServiceImpl implements MealService {
             meal.setImagePath(ImageFileService.DEFAULT_MEAL_PATH);
         }
         //validate the path if it exists
-        if (!fileService.validateImagePath(meal.getImagePath())) {
+        /*if (!fileService.validateImagePath(meal.getImagePath())) {
             throw new IllegalArgumentException("Invalid image path");
-        }
+        }*/
         //save receipts to meal
         if (meal.getRecipes() != null) {
             for (Recipe recipe: meal.getRecipes()) {
