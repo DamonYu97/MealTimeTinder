@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -21,10 +22,12 @@ public class Recipe {
 
     private String description;
 
+    @Setter
     private boolean isDefault;
 
     @ManyToOne
     @JoinColumn(name = "meal_id", nullable = false)
     @JsonIgnore
+    @Setter
     private Meal meal;
 }

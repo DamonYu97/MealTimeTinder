@@ -88,7 +88,7 @@ public class BackendApplication {
                         User.Status.REGISTERED, "St Andrews","KY16");
 
                 Restaurant paesano = new Restaurant("damon","1204578616",
-                        User.Status.PENDING,"Glasgow","G64 123","Italian Food",meals);
+                        User.Status.REGISTERED,"Glasgow","G64 123","Italian Food",meals);
 
 
                 List<Hunter> hunters = Arrays.asList(conor,damon);

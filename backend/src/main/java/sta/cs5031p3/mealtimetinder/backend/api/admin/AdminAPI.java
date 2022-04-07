@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import sta.cs5031p3.mealtimetinder.backend.model.*;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
@@ -84,20 +85,48 @@ public class AdminAPI {
     @Operation(security = {
             @SecurityRequirement(name = "AdminBearerAuth")
     })
-    public String uploadImage(@RequestBody ImageUpload imageUpload) throws IOException {
-        return fileService.upload(imageUpload, "meals");
+    public String uploadImage(@ModelAttribute MultipartFile image) throws IOException {
+        return fileService.upload(image, "meals");
     }
 
-    @PostMapping("/addMeal/{image_path}/{name}")
+    @PostMapping("/AddRecipeForMeal")
     @Operation(security = {
             @SecurityRequirement(name = "AdminBearerAuth")
     })
-    public boolean addMeal(
-            @PathVariable String image_path,
-            @PathVariable String name
-    )  {
+    public boolean addRecipeForMeal(@RequestBody RecipeCreation recipeCreation) {
+        try {
+            Meal meal = mealService.getMealById(recipeCreation.getMeal_id());
+            mealService.saveRecipe(new Recipe(null, recipeCreation.getName(),
+                    recipeCreation.getDescription(), recipeCreation.isDefault(), meal));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @PostMapping("/addMealToRestaurant")
+    @Operation(security = {
+            @SecurityRequirement(name = "AdminBearerAuth")
+    })
+    public boolean addMealToRestaurant(@RequestBody MealToRestaurant mealToRestaurant) {
+        try {
+            Restaurant h = (Restaurant) userService.getUserById(mealToRestaurant.getRestaurantId());
+            Meal m = mealService.getMealById(mealToRestaurant.getMealId());
+            mealService.addMealToRestaurantImpl(h, m);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    @PostMapping("/addMeal")
+    @Operation(security = {
+            @SecurityRequirement(name = "AdminBearerAuth")
+    })
+    public boolean addMeal(@RequestBody MealCreation mealCreation)  {
         try{
-            mealService.saveMeal(new Meal(null,name,image_path,null,null,null));
+            mealService.saveMeal(new Meal(null,mealCreation.getName(),
+                    mealCreation.getImagePath(), mealCreation.getRecipes(),null,null));
             return true;
         } catch (Exception e){
             return false;
