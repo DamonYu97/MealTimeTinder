@@ -61,7 +61,7 @@ public class RestaurantAPI {
     public ResponseEntity<Iterable<Meal>> getAllMeals() {
         return ResponseEntity.ok().body(mealService.getAllMeals());
     }
-    //TODO : MANIPULATE MEALS LIST
+    //TODO : MANIPULATE MEALS LIST, EVERYTHING BELOW NEEDS CHECKING
 
     @PostMapping("/addMealToRestaurant/{mealId}")
     @Operation(security = {
