@@ -1,5 +1,6 @@
 package sta.cs5031p3.mealtimetinder.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,6 +32,7 @@ public class Restaurant extends User {
     @JoinTable(name = "restaurant_serves",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "meal_id"))
+    @JsonIgnore
     private List<Meal> servedMeals;
 
 }
