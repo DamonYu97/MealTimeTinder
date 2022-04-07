@@ -9,6 +9,7 @@ import org.springframework.data.domain.Example;
 import sta.cs5031p3.mealtimetinder.backend.model.*;
 import sta.cs5031p3.mealtimetinder.backend.repository.MealRepository;
 import sta.cs5031p3.mealtimetinder.backend.repository.UserRepository;
+import sta.cs5031p3.mealtimetinder.backend.service.impl.MealServiceImpl;
 import sta.cs5031p3.mealtimetinder.backend.service.impl.UserServiceImpl;
 
 import java.util.ArrayList;
@@ -24,8 +25,14 @@ public class UserServiceTests {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private UserRepository mealRepository;
+
     @InjectMocks
     private UserService userService = new UserServiceImpl();
+
+    @InjectMocks
+    private MealService mealService = new MealServiceImpl();
 
     @BeforeEach
     public void setup() {
@@ -45,6 +52,90 @@ public class UserServiceTests {
         assertEquals(2, userRepository.findAll().size());
 
     }
+    @Test
+    public void checkGetFavourites() {
+
+        ArrayList<Meal> meals = new ArrayList<Meal>();
+        Meal meal = new Meal(null, "test meal", "imagePath", null, null, null);
+        meals.add(meal);
+        Hunter testhunt = new Hunter("Michael", "1204578608",
+                User.Status.REGISTERED, "St Andrews", "G64 126", meals);
+        when(userRepository.save(testhunt)).thenReturn(testhunt);
+
+        assertEquals(userRepository.save(testhunt).getFavouriteMeals().size(), 1);
+
+        Meal meal2 = new Meal(null, "test meal 2", "imagePath 2", null, null, null);
+        userService.addToFavourites(testhunt, meal2);
+
+        Meal meal3 = new Meal(null, "test meal 3", "imagePath 2", null, null, null);
+        userService.addToFavourites(testhunt, meal3);
+
+
+        assertEquals(userRepository.save(testhunt).getFavouriteMeals().size(), 3);
+    }
+
+
+    @Test
+    public void addToFavourites(){
+
+        ArrayList<Meal> meals= new ArrayList<Meal>();
+        Meal meal = new Meal(null, "test meal","imagePath",null, null, null);
+        meals.add(meal);
+        Hunter testhunt = new Hunter("Michael","1204578608",
+                User.Status.REGISTERED, "St Andrews","G64 126",meals);
+        when(userRepository.save(testhunt)).thenReturn(testhunt);
+
+        assertEquals(userRepository.save(testhunt).getFavouriteMeals().size(),1);
+
+        Meal meal2 = new Meal(null, "test meal 2","imagePath 2",null, null, null);
+        userService.addToFavourites(testhunt,meal2);
+
+        assertEquals(userRepository.save(testhunt).getFavouriteMeals().size(),2);
+
+    }
+
+    @Test
+    public void cantAddDuplicateFavourites(){
+
+        ArrayList<Meal> meals= new ArrayList<Meal>();
+        Meal meal = new Meal(null, "test meal","imagePath",null, null, null);
+        meals.add(meal);
+        Hunter testhunt = new Hunter("Michael","1204578608",
+                User.Status.REGISTERED, "St Andrews","G64 126",meals);
+        when(userRepository.save(testhunt)).thenReturn(testhunt);
+
+        assertEquals(userRepository.save(testhunt).getFavouriteMeals().size(),1);
+
+        assertThrows(IllegalArgumentException.class,()-> userService.addToFavourites(testhunt,meal));
+
+
+        assertEquals(testhunt.getFavouriteMeals().size(),1);
+
+    }
+
+
+
+    @Test
+    public void removeFromFavourites(){
+
+        ArrayList<Meal> meals= new ArrayList<Meal>();
+        Meal meal = new Meal(null, "test meal","imagePath",null, null, null);
+        meals.add(meal);
+        Hunter testhunt = new Hunter("Michael","1204578608",
+                User.Status.REGISTERED, "St Andrews","G64 126",meals);
+        when(userRepository.save(testhunt)).thenReturn(testhunt);
+
+        assertEquals(userRepository.save(testhunt).getFavouriteMeals().size(),1);
+
+        Meal meal2 = new Meal(null, "test meal 2","imagePath 2",null, null, null);
+        userService.addToFavourites(testhunt,meal2);
+        userService.removeFromFavourites(testhunt,meal2);
+
+        assertEquals(userRepository.save(testhunt).getFavouriteMeals().size(),1);
+
+    }
+
+
 
     @Test
     public void getAllAdminUserTest2() {
@@ -74,5 +165,8 @@ public class UserServiceTests {
         when(userRepository.save(testuser2)).thenReturn(testuser2);
         assertThrows(IllegalArgumentException.class,() -> userService.saveUser(testuser2));
     }
+
+    @Test
+    public void addNewUserWithoutNameThrowExceptionTest(){}
 }
 
