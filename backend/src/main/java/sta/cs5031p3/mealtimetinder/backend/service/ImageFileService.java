@@ -10,9 +10,18 @@ import java.io.IOException;
  */
 public interface ImageFileService {
 
+    String DEFAULT_MEAL_PATH = "/meals/default.jpg";
+
     /**
      * Upload image to /<project-root-folder>/images/
      * @throws IOException
      */
     String upload(MultipartFile multipartFile, String to) throws IOException;
+
+    /**
+     * Check if file in this path exists.
+     * @param path path of the file
+     * @return true if the path is for a valid file, false otherwise.
+     */
+    boolean validateImagePath(String path);
 }

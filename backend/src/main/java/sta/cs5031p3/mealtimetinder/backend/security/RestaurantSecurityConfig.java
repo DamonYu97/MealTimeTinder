@@ -2,6 +2,7 @@ package sta.cs5031p3.mealtimetinder.backend.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -32,6 +33,8 @@ import sta.cs5031p3.mealtimetinder.backend.service.impl.RestaurantDetailServiceI
 public class RestaurantSecurityConfig extends WebSecurityConfigurerAdapter {
     private final RestaurantDetailServiceImpl userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private CorsConfigurationSource corsConfigurationSource;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -46,7 +49,7 @@ public class RestaurantSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors();
+        http.cors().configurationSource(corsConfigurationSource);
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.requestMatchers().and().authorizeRequests().antMatchers("/restaurant/login/**", "/restaurant/register/**").permitAll();

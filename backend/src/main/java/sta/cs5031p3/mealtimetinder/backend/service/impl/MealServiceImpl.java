@@ -8,6 +8,7 @@ import sta.cs5031p3.mealtimetinder.backend.model.Recipe;
 import sta.cs5031p3.mealtimetinder.backend.model.Restaurant;
 import sta.cs5031p3.mealtimetinder.backend.repository.MealRepository;
 import sta.cs5031p3.mealtimetinder.backend.repository.RecipeRepository;
+import sta.cs5031p3.mealtimetinder.backend.service.ImageFileService;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 
 import java.util.List;
@@ -23,6 +24,8 @@ public class MealServiceImpl implements MealService {
     @Autowired
     private RecipeRepository recipeRepository;
 
+    private ImageFileService fileService = new ImageFileServiceImpl();
+
     @Override
     public List<Meal> getRandom5Meals() {
         //Get a random page number
@@ -36,12 +39,21 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public Meal saveMeal(Meal meal) {
+        if (meal == null) {
+            throw new IllegalArgumentException("Can't save an empty meal");
+        }
         // Optional<Meal> existingMeal = userRepository.findMealByName
         Optional<Meal> existingMeal = mealRepository.findMealByName(meal.getName());
         if (existingMeal.isPresent()) {
             throw new IllegalArgumentException("Meal with this name already exists");
         }
+        if (meal.getImagePath() == null) {
+            meal.setImagePath(ImageFileService.DEFAULT_MEAL_PATH);
+        }
         //validate the path if it exists
+        if (!fileService.validateImagePath(meal.getImagePath())) {
+            throw new IllegalArgumentException("Invalid image path");
+        }
         //save receipts to meal
         if (meal.getRecipes() != null) {
             for (Recipe recipe: meal.getRecipes()) {
