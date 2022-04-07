@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/hunter")
 @OpenAPIDefinition(info = @Info(title = "Hunter Account API",
         description = "This documents Restful APIs for Hunter's Account",
         contact = @Contact(name = "CS5031 P3 Group B",
@@ -46,7 +47,6 @@ public class HunterAPI {
             description = "Hunter submit login form to log in")
     public ResponseEntity<JWTResponse> login(@RequestBody UserLoginForm loginForm) {
         String accessToken = userService.login(loginForm, User.Role.ADMIN, authenticationManager);
-        ;
         return ResponseEntity.ok(new JWTResponse(accessToken));
     }
 
