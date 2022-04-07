@@ -1,5 +1,6 @@
 package sta.cs5031p3.mealtimetinder.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,11 +29,15 @@ public class Meal {
     @OneToMany(mappedBy = "meal")
     List<Recipe> recipes;
 
+    @JsonIgnore
     @ManyToMany(mappedBy ="servedMeals")
     List<Restaurant> restaurants;
 
+    @JsonIgnore
     @ManyToMany(mappedBy ="favouriteMeals")
     List<Hunter> likes;
 
-
+    public void addRecipe(Recipe recipe){
+        this.recipes.add(recipe);
+    }
 }
