@@ -35,4 +35,11 @@ public class Restaurant extends User {
     @JsonIgnore
     private List<Meal> servedMeals;
 
+    public void addToServedMeal(Meal meal){
+        this.servedMeals.add(meal);
+    }
+
+    public void removeServedMeal(Meal meal){
+        this.servedMeals.remove(meal);
+    }
 }

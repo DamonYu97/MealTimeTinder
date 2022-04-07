@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/hunter")
 @OpenAPIDefinition(info = @Info(title = "Hunter Account API",
         description = "This documents Restful APIs for Hunter's Account",
         contact = @Contact(name = "CS5031 P3 Group B",
@@ -101,6 +100,7 @@ public class HunterAPI {
             Meal meal = mealService.getMealById(id);
             //mealService.saveRecipe(new Recipe(null,name,description,defaulted,meal));
             mealService.saveRecipe(new Recipe(null,name,description,false,meal));
+            //check for invalid recipe (no meal)
         } catch (Exception e) {
 
         }
