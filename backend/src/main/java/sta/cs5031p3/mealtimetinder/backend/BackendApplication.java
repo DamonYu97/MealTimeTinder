@@ -82,12 +82,12 @@ public class BackendApplication {
 
                 Hunter conor = new Hunter("Conor test",passwordEncoder().encode("1204578606"),
                         User.Status.REGISTERED, "St Andrews","G64 128",meals);
-                Hunter damon = new Hunter("Damon test",passwordEncoder().encode("1204578606"),
+                Hunter damon = new Hunter("damon",passwordEncoder().encode("1204578616"),
                         User.Status.REGISTERED, "St Andrews","G64 128",meals);
-                User admin = new Admin("admin",passwordEncoder().encode("1204578615"),
+                User admin = new Admin("damon",passwordEncoder().encode("1204578616"),
                         User.Status.REGISTERED, "St Andrews","KY16");
 
-                Restaurant paesano = new Restaurant("Paesano",passwordEncoder().encode("1204578611"),
+                Restaurant paesano = new Restaurant("damon",passwordEncoder().encode("1204578616"),
                         User.Status.PENDING,"Glasgow","G64 123","Italian Food",meals);
 
 

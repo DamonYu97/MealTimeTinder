@@ -49,7 +49,7 @@ public class HunterSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors();
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.requestMatchers().and().authorizeRequests().antMatchers("/hunter/login/**", "/hunter/meals").permitAll();
+        http.requestMatchers().and().authorizeRequests().antMatchers("/hunter/login/**", "/hunter/meals","/hunter/createNewHunterAccount/**").permitAll();
         http.requestMatchers().antMatchers("/hunter/**")
                 .and().authorizeRequests().anyRequest().hasAuthority("HUNTER");
         http.addFilterBefore(new CustomAuthorisationFilter(), UsernamePasswordAuthenticationFilter.class);

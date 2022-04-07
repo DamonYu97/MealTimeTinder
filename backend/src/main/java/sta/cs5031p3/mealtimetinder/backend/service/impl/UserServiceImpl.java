@@ -47,6 +47,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Meal> getFavourites(Hunter hunter){
+
+        return hunter.getFavouriteMeals();
+    }
+    @Override
+    public void addToFavourites(Hunter hunter,Meal meal){
+
+        hunter.addFavouritedMeal(meal);
+    }
+    @Override
+    public void removeFromFavourites(Hunter hunter,Meal meal){
+
+        hunter.removeFavouritedMeal(meal);
+    }
+
+    @Override
     public User getRegisteredHunterByUsername(String username) {
         return userRepository.findUserByUsernameAndRoleAndStatus(username, User.Role.HUNTER, User.Status.REGISTERED).orElseThrow();
     }
@@ -64,11 +80,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getRegisteredAdminByUsername(String username) {
         return userRepository.findUserByUsernameAndRoleAndStatus(username, User.Role.ADMIN, User.Status.REGISTERED).orElseThrow();
-    }
-
-    @Override
-    public List<User> getAllByRole(User.Role role){
-        return userRepository.getAllByRole(role);
     }
 
 }

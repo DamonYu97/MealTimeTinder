@@ -1,8 +1,11 @@
 package sta.cs5031p3.mealtimetinder.backend.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import sta.cs5031p3.mealtimetinder.backend.model.Meal;
+import sta.cs5031p3.mealtimetinder.backend.model.Restaurant;
 import sta.cs5031p3.mealtimetinder.backend.model.User;
 
 import java.util.List;
@@ -24,5 +27,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> getAllByRole(User.Role role);
 
+
+
+
+    
+    
+    
 
 }

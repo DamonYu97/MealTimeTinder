@@ -15,8 +15,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sta.cs5031p3.mealtimetinder.backend.model.JWTResponse;
+import sta.cs5031p3.mealtimetinder.backend.model.Meal;
 import sta.cs5031p3.mealtimetinder.backend.model.User;
 import sta.cs5031p3.mealtimetinder.backend.model.UserLoginForm;
+import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
 import sta.cs5031p3.mealtimetinder.backend.service.FileService;
 
@@ -41,6 +43,10 @@ public class AdminAPI {
     private UserService userService;
 
     @Autowired
+    private MealService mealService;
+
+
+    @Autowired
     private FileService fileService;
 
     @PostMapping("/login")
@@ -59,6 +65,13 @@ public class AdminAPI {
         return ResponseEntity.ok().body(userService.getAllUsers());
     }
 
+    @GetMapping("/allMeals")
+    @Operation(security = {
+            @SecurityRequirement(name = "AdminBearerAuth")
+    })
+    public ResponseEntity<Iterable<Meal>> getAllMeals() {
+        return ResponseEntity.ok().body(mealService.getAllMeals());
+    }
 
     @GetMapping("/profile")
     @Operation(security = {
@@ -72,8 +85,27 @@ public class AdminAPI {
     }
 
     @PostMapping(value = "/meal/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(security = {
+            @SecurityRequirement(name = "AdminBearerAuth")
+    })
     public String uploadImage(@RequestBody MultipartFile multipartFile) throws IOException {
         return fileService.upload(multipartFile, "meals");
+    }
+
+    @PostMapping("/addMeal/{image_path}/{name}")
+    @Operation(security = {
+            @SecurityRequirement(name = "AdminBearerAuth")
+    })
+    public boolean addMeal(
+            @PathVariable String image_path,
+            @PathVariable String name
+    )  {
+        try{
+            mealService.saveMeal(new Meal(null,name,image_path,null,null,null));
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 
 }

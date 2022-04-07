@@ -49,7 +49,7 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors();
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/admin/login/**").permitAll();
+        http.authorizeRequests().antMatchers("/admin/login/**","/admin/addMeal/**").permitAll();
         http.requestMatchers().antMatchers("/admin/**")
                 .and().authorizeRequests().anyRequest().hasAuthority("ADMIN");
         http.addFilterBefore(new CustomAuthorisationFilter(), UsernamePasswordAuthenticationFilter.class);
