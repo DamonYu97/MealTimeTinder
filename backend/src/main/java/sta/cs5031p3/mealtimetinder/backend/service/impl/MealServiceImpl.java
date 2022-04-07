@@ -88,8 +88,23 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public void addMealToRestaurant(Restaurant restaurant, Meal meal) {
+    public void addMealToRestaurantImpl(Restaurant restaurant, Meal meal) {
+        restaurant.addToServedMeal(meal);
+    }
 
+    @Override
+    public void removeMealFromRestaurantImpl(Restaurant restaurant, Meal meal){
+        restaurant.removeServedMeal(meal);
+    }
+
+    @Override
+    public void addRestaurantToMealImpl(Restaurant restaurant, Meal meal){
+        meal.addRestaurantToMeal(restaurant);
+    }
+
+    @Override
+    public void removeRestaurantFromMealImpl(Restaurant restaurant, Meal meal){
+        meal.removeRestaurantToMeal(restaurant);
     }
 
 }

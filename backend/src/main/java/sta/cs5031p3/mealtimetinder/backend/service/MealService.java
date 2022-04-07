@@ -35,5 +35,11 @@ public interface MealService {
 
     List<Meal> getMealsForRestaurant(Restaurant restaurant);
 
-    void addMealToRestaurant(Restaurant restaurant, Meal meal);
+    void addMealToRestaurantImpl(Restaurant restaurant, Meal meal);
+
+    void removeMealFromRestaurantImpl(Restaurant restaurant, Meal meal);
+
+    void addRestaurantToMealImpl(Restaurant restaurant, Meal meal);
+
+    void removeRestaurantFromMealImpl(Restaurant restaurant, Meal meal);
 }

@@ -40,4 +40,12 @@ public class Meal {
     public void addRecipe(Recipe recipe){
         this.recipes.add(recipe);
     }
+
+    public void addRestaurantToMeal(Restaurant restaurant){
+        this.restaurants.add(restaurant);
+    }
+
+    public void removeRestaurantToMeal(Restaurant restaurant){
+        this.restaurants.remove(restaurant);
+    }
 }

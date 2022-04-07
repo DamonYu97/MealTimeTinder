@@ -1,10 +1,7 @@
 package sta.cs5031p3.mealtimetinder.backend.service;
 
 import org.springframework.security.authentication.AuthenticationManager;
-import sta.cs5031p3.mealtimetinder.backend.model.Hunter;
-import sta.cs5031p3.mealtimetinder.backend.model.Meal;
-import sta.cs5031p3.mealtimetinder.backend.model.User;
-import sta.cs5031p3.mealtimetinder.backend.model.UserLoginForm;
+import sta.cs5031p3.mealtimetinder.backend.model.*;
 
 import javax.management.relation.Role;
 import java.util.List;
@@ -34,6 +31,5 @@ public interface UserService {
     void addToFavourites(Hunter hunter,Meal meal);
 
     void removeFromFavourites(Hunter hunter,Meal meal);
-
 
  }
