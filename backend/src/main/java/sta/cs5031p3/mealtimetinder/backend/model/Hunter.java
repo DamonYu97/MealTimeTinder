@@ -1,5 +1,6 @@
 package sta.cs5031p3.mealtimetinder.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class Hunter extends User {
         this.favouriteMeals=meals;
     }
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "favourite_meals",
             joinColumns = @JoinColumn(name = "user_id"),

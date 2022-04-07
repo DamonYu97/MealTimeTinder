@@ -25,5 +25,6 @@ public class Recipe {
 
     @ManyToOne
     @JoinColumn(name = "meal_id", nullable = false)
+    @JsonIgnore
     private Meal meal;
 }
