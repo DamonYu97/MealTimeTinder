@@ -10,6 +10,14 @@ create database meal_time_tinder;
 create user 'mtt'@'localhost' identified by '123456';
 grant all on meal_time_tinder.* to 'mtt'@'localhost';
 ```
+### Specify your project path
+In backend/src/main/resources/application.yml -> static-locations:
+
+To get your path, use following command:
+```sh
+pwd
+```
+
 
 ### Default accounts
 
