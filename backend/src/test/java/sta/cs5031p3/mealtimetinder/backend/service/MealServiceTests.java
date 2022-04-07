@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import sta.cs5031p3.mealtimetinder.backend.model.*;
 import sta.cs5031p3.mealtimetinder.backend.repository.MealRepository;
 import sta.cs5031p3.mealtimetinder.backend.repository.RecipeRepository;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
 public class MealServiceTests {
 
     @Mock
@@ -56,7 +58,7 @@ public class MealServiceTests {
         Recipe r2 = new Recipe(null, "r2", "ds", false, null);
         recipes.add(r2);
         //add test meal
-        Meal test = new Meal(null, "testmeal", "meals/burger.jpg", recipes, null, null);
+        Meal test = new Meal(null, "testmeal", "/meals/burger.jpg", recipes, null, null);
         //mock repositories
         when(mealRepository.findMealByName("testmeal")).thenReturn(Optional.empty());
         when(mealRepository.save(test)).thenReturn(test);
@@ -73,9 +75,8 @@ public class MealServiceTests {
     @Test
     public void addNewMealWithoutNameThrowExceptionTest() {
         //add test meal
-        Meal test = new Meal(null, null , "meals/burger.jpg", null, null, null);
+        Meal test = new Meal(null, null , "/meals/burger.jpg", null, null, null);
         //test the service
-        mealService.saveMeal(test);
         assertThrows(IllegalArgumentException.class, () -> mealService.saveMeal(test));
     }
 
@@ -89,7 +90,7 @@ public class MealServiceTests {
         //test the service
         Meal meal = mealService.saveMeal(test);
         assertEquals(test.getName(), meal.getName());
-        assertEquals("/meals/default.jpg", meal.getImagePath());
+        assertEquals(ImageFileService.DEFAULT_MEAL_PATH, meal.getImagePath());
     }
 
     @Test
@@ -99,7 +100,6 @@ public class MealServiceTests {
         //mock repositories
         when(mealRepository.findMealByName("testmeal")).thenReturn(Optional.empty());
         //test the service
-        mealService.saveMeal(test);
         assertThrows(IllegalArgumentException.class, () -> mealService.saveMeal(test));
     }
 
@@ -147,7 +147,6 @@ public class MealServiceTests {
 
         Meal test = new Meal(null, "Burger Test", "meals/burger.jpg", null, null, null);
         Meal test2 = new Meal(null, "Burger Test", "meals/burger.jpg", null, null, null);
-        mealService.saveMeal(test);
         when(mealRepository.findMealByName(test.getName())).thenReturn(Optional.of(test));
         assertThrows(IllegalArgumentException.class, () -> mealService.saveMeal(test2));
     }

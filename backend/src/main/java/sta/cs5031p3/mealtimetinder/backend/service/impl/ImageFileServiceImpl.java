@@ -8,9 +8,11 @@ import sta.cs5031p3.mealtimetinder.backend.service.ImageFileService;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Service
-public class FileServiceImpl implements ImageFileService {
+public class ImageFileServiceImpl implements ImageFileService {
 
     /**
      * Customized folder for image files.
@@ -26,4 +28,11 @@ public class FileServiceImpl implements ImageFileService {
         file.transferTo(image);
         return relativePath;
     }
+
+    @Override
+    public boolean validateImagePath(String path) {
+        return Files.exists(Path.of(imageFileLocation + path));
+    }
+
+
 }

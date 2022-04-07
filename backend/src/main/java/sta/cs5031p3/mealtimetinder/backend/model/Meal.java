@@ -25,6 +25,7 @@ public class Meal {
     @NotNull
     String name;
 
+    @Setter
     String imagePath;
 
     @Setter
