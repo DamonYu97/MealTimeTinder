@@ -32,4 +32,8 @@ public interface UserService {
 
     void removeFromFavourites(Hunter hunter,Meal meal);
 
+    User getRegisteredRestaurantByUsername(String username);
+
+    public List<Meal> getServedMeals(Restaurant restaurant);
+
  }

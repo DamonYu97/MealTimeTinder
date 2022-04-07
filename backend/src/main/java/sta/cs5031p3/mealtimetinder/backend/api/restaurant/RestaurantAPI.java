@@ -61,15 +61,21 @@ public class RestaurantAPI {
     public ResponseEntity<Iterable<Meal>> getAllMeals() {
         return ResponseEntity.ok().body(mealService.getAllMeals());
     }
+    //TODO : MANIPULATE MEALS LIST
 
-
-    @PostMapping("/addMealToRestaurant/{restaurant}/{meal}")
+    @PostMapping("/addMealToRestaurant/{mealId}")
+    @Operation(security = {
+            @SecurityRequirement(name = "RestaurantBearerAuth")
+    })
     public boolean addMealToRestaurant(
-            @PathVariable ("restaurant") Restaurant restaurant,
-            @PathVariable ("meal") Meal meal
+            @PathVariable ("mealId") long mealId
     ) {
         try {
-            mealService.addMealToRestaurantImpl(restaurant, meal);
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            Restaurant h = (Restaurant) userService.getRegisteredRestaurantByUsername(username);
+
+            Meal m = mealService.getMealById(mealId);
+            mealService.addMealToRestaurantImpl(h, m);
             return true;
 
         } catch (Exception e){
@@ -77,33 +83,46 @@ public class RestaurantAPI {
         }
     }
 
-    @PostMapping ("/removeMealFromRestaurant/{restaurant}/{meal}")
+    @PostMapping ("/removeMealFromRestaurant/{mealId}")
+    @Operation(security = {
+            @SecurityRequirement(name = "RestaurantBearerAuth")
+    })
     public boolean  removeMealFromRestaurant(
-            @PathVariable ("restaurant") Restaurant restaurant,
-            @PathVariable ("meal") Meal meal
+
+            @PathVariable ("mealId") long mealId
     ){
         try {
-            mealService.removeMealFromRestaurantImpl(restaurant, meal);
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            Restaurant h = (Restaurant) userService.getRegisteredRestaurantByUsername(username);
+
+            Meal m = mealService.getMealById(mealId);
+            mealService.removeRestaurantFromMealImpl(h, m);
             return true;
         } catch (Exception e){
             return false;
         }
     }
 
-    @PostMapping("/addRestaurantToMeal/{restaurant}/{meal}")
+    @PostMapping("/addRestaurantToMeal/{mealId}")
+    @Operation(security = {
+            @SecurityRequirement(name = "RestaurantBearerAuth")
+    })
     public boolean addRestaurantToMeal(
-            @PathVariable ("restaurant") Restaurant restaurant,
-            @PathVariable ("meal") Meal meal
+            @PathVariable ("mealId") long mealId
     ) {
         try {
-            mealService.addRestaurantToMealImpl(restaurant, meal);
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            Restaurant h = (Restaurant) userService.getRegisteredRestaurantByUsername(username);
+
+            Meal m = mealService.getMealById(mealId);
+            mealService.addRestaurantToMealImpl(h, m);
             return true;
         } catch(Exception e){
             return false;
         }
     }
 
-    @PostMapping ("/removeRestaurantFromMeal/{restaurant}/{meal}")
+   /* @PostMapping ("/removeRestaurantFromMeal/{restaurant}/{meal}")
     public boolean removeRestaurantToMeal(
             @PathVariable ("restaurant") Restaurant restaurant,
             @PathVariable ("meal") Meal meal
@@ -114,27 +133,34 @@ public class RestaurantAPI {
         } catch (Exception e) {
             return false;
         }
-    }
+    }*/
 
-    @PostMapping("/getRestaurantMeals/{restaurant}")
-    public List<Meal> checkOwnMeal(
-            @PathVariable("restaurant")Restaurant restaurant
-            ) {
+    @PostMapping("/getRestaurantMeals")
+    @Operation(security = {
+            @SecurityRequirement(name = "RestaurantBearerAuth")
+    })
+    public List<Meal> checkOwnMeal() {
         try {
-            List<Meal> meals = mealService.getMealsForRestaurant(restaurant);
-            return meals;
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            Restaurant h = (Restaurant) userService.getRegisteredRestaurantByUsername(username);
+            return userService.getServedMeals(h);
         } catch (Exception e){
             return null;
         }
     }
 
-    @GetMapping("/getSpecificMeal/{mealName}")
+
+    @GetMapping("/getSpecificMeal/{mealId}")
+    @Operation(security = {
+            @SecurityRequirement(name = "RestaurantBearerAuth")
+    })
     public Meal getSpecificMeal(
-        @PathVariable("mealName") String meaName
+        @PathVariable("mealId") long mealId
     ){
 
         try {
-            return mealService.getSpecificMeal(meaName);
+            Meal m = mealService.getMealById(mealId);
+            return m;
         } catch(Exception e){
             return null;
         }

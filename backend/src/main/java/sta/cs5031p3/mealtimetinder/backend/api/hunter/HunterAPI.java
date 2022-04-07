@@ -103,6 +103,7 @@ public class HunterAPI {
             Meal meal = mealService.getMealById(id);
             //mealService.saveRecipe(new Recipe(null,name,description,defaulted,meal));
             mealService.saveRecipe(new Recipe(null,name,description,false,meal));
+            //check for invalid recipe (no meal)
         } catch (Exception e) {
 
         }
