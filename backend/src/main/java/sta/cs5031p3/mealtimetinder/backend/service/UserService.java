@@ -31,9 +31,4 @@ public interface UserService {
 
     List<User> getAllByRole(User.Role role);
 
-    void addMealToCookbook(int mealID);
-
-    List <Meal> getMealsForRestaurant(Restaurant restaurant);
-
-    void addMealToRestaurant(Restaurant restaurant, Meal meal);
  }
