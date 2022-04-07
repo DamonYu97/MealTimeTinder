@@ -41,11 +41,26 @@ public class RestaurantAPI {
     @Autowired
     private MealService mealService;
 
+    @PostMapping("/register")
+    @Operation(summary = "Restaurant register",
+            description = "Restaurant submit username password description to register an account")
+    public boolean addAccount(@RequestBody RestaurantCreation creation) {
+        try {
+            userService.saveUser(new Restaurant(creation.getUsername(), creation.getPassword(),
+                    sta.cs5031p3.mealtimetinder.backend.model.User.Status.REGISTERED, creation.getAddress(), creation.getPostcode(),
+                    creation.getDescription(), null));
+            return true;
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return false;
+        }
+    }
+
     @PostMapping("/login")
     @Operation(summary = "Restaurant Login",
             description = "Restaurant submit login form to log in")
     public ResponseEntity<JWTResponse> login(@RequestBody UserLoginForm loginForm) {
-        String accessToken = userService.login(loginForm, User.Role.ADMIN, authenticationManager);
+        String accessToken = userService.login(loginForm, User.Role.RESTAURANT, authenticationManager);
         return ResponseEntity.ok(new JWTResponse(accessToken));
     }
 
@@ -96,4 +111,5 @@ public class RestaurantAPI {
         }
 
     }
+
 }
