@@ -6,6 +6,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sta.cs5031p3.mealtimetinder.backend.model.*;
@@ -22,6 +24,8 @@ import java.util.Set;
 @Slf4j
 @Transactional
 public class UserServiceImpl implements UserService {
+
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     private UserRepository userRepository;
@@ -87,6 +91,10 @@ public class UserServiceImpl implements UserService {
         if (existingUser.isPresent()) {
             throw new IllegalArgumentException("User already exists");
         }
+        //encode the password
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+
+        user.setPassword(encodedPassword);
         return userRepository.save(user);
     }
 

@@ -36,9 +36,6 @@ public class HunterAPI {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
@@ -138,13 +135,11 @@ public class HunterAPI {
         }
     }
 
-    @PostMapping("/createNewHunterAccount/{password}/{username}")
-    public boolean addAccount(
-            @PathVariable String password,
-            @PathVariable String username
-    ) {
+    @PostMapping("/register")
+    public boolean addAccount(@RequestBody HunterCreation creation) {
         try {
-            userRepository.save(new User(null, username, password, User.Status.REGISTERED, User.Role.HUNTER, null, null));
+            userService.saveUser(new Hunter(creation.getUsername(), creation.getPassword(), User.Status.REGISTERED
+                    , creation.getAddress(), creation.getPostcode(), null));
             return true;
         } catch (Exception e){
             return false;
