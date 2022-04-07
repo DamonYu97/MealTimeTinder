@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(long id) {
         return userRepository.findById(id).orElseThrow();
+
     }
 
     @Override
@@ -64,8 +65,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addToFavourites(Hunter hunter,Meal meal){
-
-        hunter.addFavouritedMeal(meal);
+        if(hunter.getFavouriteMeals().contains(meal)){
+            throw new IllegalArgumentException("Already Favourited!");
+        }else{
+            hunter.addFavouritedMeal(meal);
+        }
     }
     @Override
     public void removeFromFavourites(Hunter hunter,Meal meal){
