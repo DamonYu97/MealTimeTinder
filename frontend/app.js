@@ -2,7 +2,7 @@ const app = Vue.createApp({
     el: "#app",
     data() {
         return {
-            screen: 20,
+            screen: 1,
 
             result: "result",
             count: 1,
