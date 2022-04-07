@@ -2,7 +2,7 @@ const app = Vue.createApp({
     el: "#app",
     data() {
         return {
-            screen: 1,
+            screen: 20,
 
             result: "result",
             count: 1,
@@ -21,6 +21,9 @@ const app = Vue.createApp({
 
             newMealName: "",
             newMealImgPath: "",
+            newMealRecipeId: "",
+            newMealRecipeName: "",
+            newMealRecipeDescription: "",
 
             firstMeal: "",
             firstMealImage: "http://localhost:8080/",
@@ -52,8 +55,8 @@ const app = Vue.createApp({
             hunterAddressIn: '',
             hunterPostcodeIn: '',
 
-            restaurantUsername: 'damon',
-            restaurantPassword: '12345678',
+            restaurantUsername: 'o',
+            restaurantPassword: 'o',
 
             restaurantUsernameIn: '',
             restaurantPasswordIn: '',
@@ -90,6 +93,13 @@ const app = Vue.createApp({
             user: {
                 mealsSelected: []
             },
+
+            selected: 'Burger',
+            options: [
+              { name: 'Burger', value: '0' },
+              { name: 'Pizza', value: '1' },
+              { name: 'Fish', value: '2' }
+            ]
 
 
         }
@@ -623,8 +633,8 @@ const app = Vue.createApp({
                 method: "POST",
                 headers: {
                     'accept': '*/*',
-                    //'Authorization': 'Bearer '+ this.accessKey,
-                    'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW1vbiIsInJvbGVzIjpbIkhVTlRFUiJdLCJleHAiOjE2NDkzNTI5NTJ9.QC52qu3TJztjHdOs5prIyM_uAV0xPL8-8zWQuE6sMUY'
+                    'Authorization': 'Bearer '+ this.accessKey,
+                    //'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW1vbiIsInJvbGVzIjpbIkhVTlRFUiJdLCJleHAiOjE2NDkzNTI5NTJ9.QC52qu3TJztjHdOs5prIyM_uAV0xPL8-8zWQuE6sMUY'
                 },
             })
             .then(response => response.json())
@@ -867,12 +877,24 @@ const app = Vue.createApp({
             });
         },
         adminAddMeal() {
-            fetch("http://localhost:8080/admin/addMeal/" +this.newMealImgPath+"/"+this.newMealName, method = {
+            fetch("http://localhost:8080/admin/addMeal", method = {
                 method: "POST",
                 headers: {
                     'accept': '*/*',
                     'Authorization': 'Bearer '+ this.accessKey
                 },
+                body: {
+                    "name": this.newMealName,
+                     "imagePath": this.newMealImgPath,
+                     "recipes": [
+                          {
+                            "id": this.newMealRecipeId,
+                            "name": this.newMealRecipeName,
+                            "description": this.newMealRecipeDescription,
+                            "default": true
+                          }
+                        ]
+                }
             })
             .then(response => response.json())
             .then(data => {
@@ -892,7 +914,64 @@ const app = Vue.createApp({
             } else {
                 alert("LOGOUT UNSUCCESSFUL")
             }
-        }
+        },
+        loadRestaurantAllMeals() {
+            fetch("http://localhost:8080/restaurant/allMeals", method = {
+                method: "GET",
+                headers: {
+                    'accept': '*/*',
+                    'Authorization': 'Bearer '+ this.accessKey,
+                    //'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW1vbiIsInJvbGVzIjpbIkhVTlRFUiJdLCJleHAiOjE2NDkzNTI5NTJ9.QC52qu3TJztjHdOs5prIyM_uAV0xPL8-8zWQuE6sMUY'
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.options = data;
+                console.log("RESULT " + this.options);
+            })
+            .catch(err => {
+                console.error("Error! " + err);
+                alert("No existing meals to choose from");
+            });
+        },
+        addMealToRestaurant() {
+            fetch("http://localhost:8080/restaurant/addMealToRestaurant/" +this.selected, method = {
+                method: "POST",
+                headers: {
+                    'accept': '*/*',
+                    'Authorization': 'Bearer '+ this.accessKey
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.result = data;
+                console.log("RESULT " + this.result);
+            })
+            .catch(err => {
+                console.error("Error! " + err);
+                alert("Could not connect to the server!");
+            });
+        },
+        adminViewAllMeals() {
+            fetch("http://localhost:8080/admin/allMeals", method = {
+                method: "GET",
+                headers: {
+                    'accept': '*/*',
+                    'Authorization': 'Bearer '+ this.accessKey
+                    //'Authorization': 'Bearer dummyKey'
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.result = data;
+                console.log("RESULT " + this.result);
+            })
+            .catch(err => {
+                console.error("Error! " + err);
+                alert("Could not connect to the server!");
+            });
+        },
+        
     }
     
     
