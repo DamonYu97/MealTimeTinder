@@ -4,13 +4,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import sta.cs5031p3.mealtimetinder.backend.service.FileService;
+import sta.cs5031p3.mealtimetinder.backend.model.ImageUpload;
+import sta.cs5031p3.mealtimetinder.backend.service.ImageFileService;
 
 import java.io.File;
 import java.io.IOException;
 
 @Service
-public class FileServiceImpl implements FileService {
+public class FileServiceImpl implements ImageFileService {
 
     /**
      * Customized folder for image files.
@@ -19,11 +20,11 @@ public class FileServiceImpl implements FileService {
     private String imageFileLocation;
 
     @Override
-    public String upload(MultipartFile multipartFile, String to) throws IOException {
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+    public String upload(ImageUpload imageUpload, String to) throws IOException {
+        String fileName = StringUtils.cleanPath(imageUpload.getFileName());
         String relativePath = "/" + to + "/" + fileName;
         File image = new File(imageFileLocation + relativePath);
-        multipartFile.transferTo(image);
+        imageUpload.getImageFile().transferTo(image);
         return relativePath;
     }
 }

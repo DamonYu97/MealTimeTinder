@@ -13,14 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import sta.cs5031p3.mealtimetinder.backend.model.JWTResponse;
-import sta.cs5031p3.mealtimetinder.backend.model.Meal;
-import sta.cs5031p3.mealtimetinder.backend.model.User;
-import sta.cs5031p3.mealtimetinder.backend.model.UserLoginForm;
+import sta.cs5031p3.mealtimetinder.backend.model.*;
 import sta.cs5031p3.mealtimetinder.backend.service.MealService;
 import sta.cs5031p3.mealtimetinder.backend.service.UserService;
-import sta.cs5031p3.mealtimetinder.backend.service.FileService;
+import sta.cs5031p3.mealtimetinder.backend.service.ImageFileService;
 
 import java.io.IOException;
 
@@ -47,7 +43,7 @@ public class AdminAPI {
 
 
     @Autowired
-    private FileService fileService;
+    private ImageFileService fileService;
 
     @PostMapping("/login")
     @Operation(summary = "Admin Login",
@@ -84,12 +80,12 @@ public class AdminAPI {
         return userService.getRegisteredAdminByUsername(username);
     }
 
-    @PostMapping(value = "/meal/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/meal/uploadMealImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(security = {
             @SecurityRequirement(name = "AdminBearerAuth")
     })
-    public String uploadImage(@RequestBody MultipartFile multipartFile) throws IOException {
-        return fileService.upload(multipartFile, "meals");
+    public String uploadImage(@RequestBody ImageUpload imageUpload) throws IOException {
+        return fileService.upload(imageUpload, "meals");
     }
 
     @PostMapping("/addMeal/{image_path}/{name}")
