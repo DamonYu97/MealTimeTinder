@@ -47,12 +47,22 @@ public class MealServiceImpl implements MealService {
     public Meal saveMeal(Meal meal) {
         // Optional<Meal> existingMeal = userRepository.findMealByName
         Optional<Meal> existingMeal = mealRepository.findMealByName(meal.getName());
-
         if (existingMeal.isPresent()) {
-            //throw new IllegalArgumentException("Meal with this name already exists");
+            throw new IllegalArgumentException("Meal with this name already exists");
+        }
+        //validate the path if it exists
+        //save receipts to meal
+        if (meal.getRecipes() != null) {
+            for (Recipe recipe: meal.getRecipes()) {
+                recipe.setMeal(meal);
+            }
         }
 
-        return mealRepository.save(meal);
+        Meal savedMeal = mealRepository.save(meal);
+        if (meal.getRecipes() != null && meal.getRecipes().size() > 0) {
+            recipeRepository.saveAll(meal.getRecipes());
+        }
+        return savedMeal;
     }
 
     public Recipe saveRecipe(Recipe recipe){

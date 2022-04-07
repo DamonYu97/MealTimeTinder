@@ -1,5 +1,6 @@
 package sta.cs5031p3.mealtimetinder.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,15 +21,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class User {
 
-
-
-
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
     private String username;
 
+    @JsonIgnore
     private String password;
 
     public enum Status {
