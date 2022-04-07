@@ -11,14 +11,6 @@ import java.util.List;
 
 public interface MealService {
 
-    /**
-     * Get random meal.
-     * @return
-     */
-    Meal getRandomMeal();
-
-    Meal getSpecificMeal(String mealName);
-
     public List<Meal> getRandom5Meals();
 
     Meal saveMeal(Meal meal);
