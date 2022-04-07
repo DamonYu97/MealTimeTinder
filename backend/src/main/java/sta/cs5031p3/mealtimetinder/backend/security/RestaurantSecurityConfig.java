@@ -49,7 +49,7 @@ public class RestaurantSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors();
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/restaurant/login/**").permitAll();
+        http.requestMatchers().and().authorizeRequests().antMatchers("/restaurant/login/**", "/restaurant/register/**").permitAll();
         http.requestMatchers().antMatchers("/restaurant/**")
                 .and().authorizeRequests().anyRequest().hasAuthority("RESTAURANT");
         http.addFilterBefore(new CustomAuthorisationFilter(), UsernamePasswordAuthenticationFilter.class);
