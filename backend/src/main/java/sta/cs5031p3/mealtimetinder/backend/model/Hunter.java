@@ -38,4 +38,12 @@ public class Hunter extends User {
         favouriteMeals.add(meal);
     }
 
+    public void removeFavouritedMeal(Meal meal){
+
+        if(favouriteMeals.contains(meal)){
+            favouriteMeals.remove(meal);
+        }
+
+    }
+
 }

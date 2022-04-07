@@ -86,6 +86,29 @@ public class HunterAPI {
         }
     }
 
+
+    //@PostMapping("/AddRecipeForMeal/{id}/{description}/{is_default}/{name}")
+    @PostMapping("/AddRecipeForMeal/{id}/{description}/{name}")
+    @Operation(security = {
+            @SecurityRequirement(name = "HunterBearerAuth")
+    })
+    public void addRecipeForMeal(
+            @PathVariable("id") long id,
+            @PathVariable("description") String description,
+            @PathVariable("name") String name
+            //@PathVariable("is_default") Boolean defaulted,
+            //@PathVariable("name") String name
+
+    ) {
+        try {
+            Meal meal = mealService.getMealById(id);
+            //mealService.saveRecipe(new Recipe(null,name,description,defaulted,meal));
+            mealService.saveRecipe(new Recipe(null,name,description,false,meal));
+        } catch (Exception e) {
+
+        }
+    }
+
     @PostMapping("/getSpecificMeal/{id}")
     @Operation(security = {
             @SecurityRequirement(name = "HunterBearerAuth")
@@ -128,21 +151,6 @@ public class HunterAPI {
         }
     }
 
-    @PostMapping("/addMealToCookbook/{mealID}")
-    @Operation(security = {
-            @SecurityRequirement(name = "HunterBearerAuth")
-    })
-    public boolean removeMealFromCookbook(
-            @PathVariable ("mealID") int mealID
-    ) {
-        try {
-            removeMealFromCookbook(mealID);
-            return true;
-        } catch (Exception e){
-            return false;
-        }
-    }
-
     @PostMapping("/viewFavourites")
     @Operation(security = {
             @SecurityRequirement(name = "HunterBearerAuth")
@@ -175,4 +183,25 @@ public class HunterAPI {
             return false;
         }
     }
+
+    @PostMapping("/removeFromFavourites/{mealId}")
+    @Operation(security = {
+            @SecurityRequirement(name = "HunterBearerAuth")
+    })
+    public Boolean removeFromFavourites(
+            @PathVariable ("mealId") long mealId
+    ) {
+        try {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            Hunter h = (Hunter) userService.getRegisteredHunterByUsername(username);
+
+            Meal m = mealService.getMealById(mealId);
+            userService.removeFromFavourites(h,m);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+
 }

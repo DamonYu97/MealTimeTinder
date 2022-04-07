@@ -57,26 +57,9 @@ public class MealServiceImpl implements MealService {
 
     public Recipe saveRecipe(Recipe recipe){
         //
-        String recipeMealName = recipe.getMeal().getName();
-
-        Optional<Meal> existingMeal = mealRepository.findMealByName(recipeMealName);
-
-        if(!existingMeal.isPresent()){
-            throw new IllegalArgumentException("Recipe Must have a valid meal");
-        }
-
         return recipeRepository.save(recipe);
     }
 
-
-    @Override
-    public Meal addRecipeToMeal(Meal meal,Recipe recipe){
-        List<Recipe> currentRecipes = meal.getRecipes();
-        currentRecipes.add(recipe);
-        meal.setRecipes(currentRecipes);
-
-        return mealRepository.save(meal);
-    }
 
     @Override
     public List<Recipe> getAllRecipesForMeal(Meal meal) {

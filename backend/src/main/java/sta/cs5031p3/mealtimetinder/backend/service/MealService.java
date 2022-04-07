@@ -29,8 +29,6 @@ public interface MealService {
 
     public List<Meal> getAllMeals();
 
-    Meal addRecipeToMeal(Meal meal,Recipe recipe);
-
     List<Recipe> getAllRecipesForMeal(Meal meal);
 
     List <Restaurant> getAllRestaurantForMeal(Meal meal);

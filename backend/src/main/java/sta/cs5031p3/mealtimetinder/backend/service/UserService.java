@@ -32,4 +32,8 @@ public interface UserService {
     List<Meal> getFavourites(Hunter user);
 
     void addToFavourites(Hunter hunter,Meal meal);
+
+    void removeFromFavourites(Hunter hunter,Meal meal);
+
+
  }

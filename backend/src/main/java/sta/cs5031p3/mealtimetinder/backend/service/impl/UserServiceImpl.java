@@ -56,6 +56,11 @@ public class UserServiceImpl implements UserService {
 
         hunter.addFavouritedMeal(meal);
     }
+    @Override
+    public void removeFromFavourites(Hunter hunter,Meal meal){
+
+        hunter.removeFavouritedMeal(meal);
+    }
 
     @Override
     public User getRegisteredHunterByUsername(String username) {
