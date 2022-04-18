@@ -7,7 +7,7 @@
 ### Setup MySQL 
 ```mysql
 create database meal_time_tinder;
-create user 'mtt'@'localhost' identified by '123456';
+create user 'mtt'@'localhost' identified by 'Mtt../12045';
 grant all on meal_time_tinder.* to 'mtt'@'localhost';
 ```
 ### Specify your project path
