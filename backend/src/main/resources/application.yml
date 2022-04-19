@@ -12,5 +12,5 @@ spring:
             ddl-auto: update
     web:
         resources:
-            static-locations: file:<project-path>/images/
+            static-locations: file:/home/opc/mealtimetinder/MealTimeTinder/images/
 
